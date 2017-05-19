@@ -1,6 +1,7 @@
 # searchbox
 
-> Search Resuts Helper
+> Search helper Kibana plugin
+Display search and completion results in a UI friendly way
 
 ---
 
