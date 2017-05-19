@@ -1,13 +1,194 @@
-<div class="container" ng-controller="searchboxHelloWorld">
-  <div class="row">
-    <div class="col-12-sm">
-      <div class="well">
-        <h2>Congratulations</h2>
-        <p class="lead">You've successfully created your first Kibana Plugin!</p>
+
+<div ng-controller="searchbox">
+  
+
+  <div class="kuiPanel kuiPanel--withHeader" >
+    
+    <div class="kuiPanelHeader">
+      <div class="kuiPanelHeaderSection">
+        <div class="kuiPanelHeader__title">
+          Search Test Box
+        </div>
       </div>
-      <h1>{{ title }}</h1>
-      <p class="lead">{{ description }}</p>
-      <p>The current time is {{ currentTime }}</p>
     </div>
+
+   
+    <div class="kuiTabs">
+      <button
+        class="kuiTab"
+        title="Quick Search"
+        
+      >
+        Auto Complete
+      </button>
+
+      <button
+        class="kuiTab"
+        title="Edit Script"
+       
+      >
+         Custom
+      </button>
+    </div>
+
+
+
+    <div class="kuiPanelBody" ng-if="tabSelected === 1">
+      <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="searchQuery" required>
+      </textarea>
+     
+    </div>
+
+
+
+
+    <div class="kuiPanelBody" ng-if="tabSelected === 0">
+      <table class="kuiTable kuiTable--fluid">
+        <tbody>
+       
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Index Name
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+              </div>
+            </td>
+          </tr>
+
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Type Name
+              </div>
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
+              </div>
+            </td>
+
+          </tr>
+
+
+           <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Suggest Field Name
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Suggest Field" ng-model="$parent.suggestField">
+              </div>
+            </td>
+          </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Nb chars input trigger
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="min Length" ng-model="$parent.minLength">
+              </div>
+            </td>
+          </tr>
+
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Size
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.size">
+              </div>
+            </td>
+          </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+               Max Fuzziness 
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="fuzziness" ng-model="$parent.fuzziness">
+              </div>
+            </td>
+          </tr>
+       
+        </tbody>
+      </table>
+
+    </div>
+   
+
+   
+
+    <div class="kuiPanelBody" >
+
+      <div ng-if="tabSelected === 0">
+        <div style="display: flex;" >
+            <div style="margin-right: 20px;">
+                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.searchStr" >
+            </div>
+
+         </div>
+      </div>
+
+
+      <div ng-if="tabSelected === 1">
+        <div style="display: flex;" ng-repeat="searchParam in params">
+            <div style="margin-right: 20px;">
+                <input ng-keyup="doSearch($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="searchStr" >
+            </div>
+
+            <div >
+              <button class="kuiButton kuiButton--basic">
+                Add
+              </button>
+            </div>
+
+             <div style="margin-left: 20px;" >
+              <button class="kuiButton kuiButton--basic">
+                Remove
+              </button>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px;">
+          <button class="kuiButton kuiButton--primary" ng-click="doSearch()">
+            Search
+          </button>
+        </div>
+      </div>
+
+
+      <div class="searchresults" ng-if="showDropdown">
+        <ul style="list-style-type:none;padding-left: 5px">
+          <div>
+
+          <li ng-repeat="row in $parent.results" >
+            {{row.text}}
+          </li>
+          
+        </ul>
+      </div>
+
+    </div> 
+
   </div>
 </div>
