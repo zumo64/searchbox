@@ -34,13 +34,75 @@
 
 
     <div class="kuiPanelBody" ng-if="tabSelected === 1">
-      <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="searchQuery" required>
-      </textarea>
-     
+       <table class="kuiTable kuiTable--fluid">
+          <tbody>
+         
+            <tr class="kuiTableRow">
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  Index Name
+                </div>
+              </td>
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+                </div>
+              </td>
+            </tr>
+
+
+            <tr class="kuiTableRow">
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  Type Name
+                </div>
+                </div>
+              </td>
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
+                </div>
+              </td>
+
+            </tr>
+
+
+
+             <tr class="kuiTableRow">
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  Results per Page
+                </div>
+              </td>
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  <input type="text"  class="kuiTextInput" placeholder="Results per Page" ng-model="$parent.resPerPage">
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr class="kuiTableRow">
+              <td class="kuiTableRowCell">
+                <div class="kuiTableRowCell__liner">
+                  Query body
+                </div>
+                </div>
+              </td>
+              <td class="kuiTableRowCell">
+                <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="searchQuery" required>
+                </textarea>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+       </table>
     </div>
 
-
-
+ 
 
     <div class="kuiPanelBody" ng-if="tabSelected === 0">
       <table class="kuiTable kuiTable--fluid">
@@ -131,64 +193,135 @@
        
         </tbody>
       </table>
-
     </div>
-   
 
-   
 
+<!-- RESULTS -->
     <div class="kuiPanelBody" >
-
       <div ng-if="tabSelected === 0">
         <div style="display: flex;" >
             <div style="margin-right: 20px;">
                 <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.searchStr" >
             </div>
+        </div>
 
-         </div>
+        <div class="searchresults" ng-if="showDropdown">
+          <ul style="list-style-type:none;padding-left: 5px">
+            <div>
+
+              <li ng-repeat="row in $parent.results" >
+                {{row.text}}
+              </li>
+            </div>  
+          </ul>
+        </div>
       </div>
-
-
       <div ng-if="tabSelected === 1">
-        <div style="display: flex;" ng-repeat="searchParam in params">
-            <div style="margin-right: 20px;">
-                <input ng-keyup="doSearch($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="searchStr" >
+
+        <div class="kuiControlledTable">
+          <!-- ToolBar -->
+          <div class="kuiToolBar" ng-repeat="searchParam in params">
+
+              <div class="kuiToolBarSearch">
+                <div class="kuiToolBarSearchBox">
+                  <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
+                  <input
+                    class="kuiToolBarSearchBox__input"
+                    type="text"
+                    placeholder="Enter search terms ..."
+                  >
+                </div>
+              </div>
+
+              <div class="kuiToolBarSection">
+
+                <button ng-click="doSearch()" class="kuiButton kuiButton--primary">
+                  Search
+                </button>
+
+                <button class="kuiButton kuiButton--primary">
+                  Add
+                </button>
+
+                <button class="kuiButton kuiButton--primary">
+                  Remove
+                </button>
+
+                
+              </div>
+
+              <div class="kuiToolBarSection">
+                <div class="kuiToolBarText">
+                  1 &ndash; 20 of 33
+                </div>
+
+                <div class="kuiButtonGroup kuiButtonGroup--united">
+                  <button class="kuiButton kuiButton--basic kuiButton--icon">
+                    <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
+                  </button>
+                  <button class="kuiButton kuiButton--basic kuiButton--icon">
+                    <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
+                  </button>
+                </div>
+              </div>
+          </div>
+
+         
+
+          <!-- Field Titles-->
+          <table class="kuiTable">
+            <thead>
+              <tr>
+               
+                <th class="kuiTableHeaderCell">
+                  Response
+                </th>
+                
+              </tr>
+            </thead>
+
+            <!-- results -->
+            <tbody>
+              <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
+                
+                <td class="kuiTableRowCell" >
+                  
+                  <json-formatter open="0" json="row._source"></json-formatter>
+
+
+                </td>
+               
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ToolBarFooter -->
+          <div class="kuiToolBarFooter">
+            <div class="kuiToolBarFooterSection">
+              <div class="kuiToolBarText">
+                {{total}} hits found
+              </div>
             </div>
 
-            <div >
-              <button class="kuiButton kuiButton--basic">
-                Add
-              </button>
+            <div class="kuiToolBarFooterSection">
+              <div class="kuiToolBarText">
+                1 &ndash; 20 of 33
+              </div>
+
+              <div class="kuiButtonGroup kuiButtonGroup--united">
+                <button class="kuiButton kuiButton--basic kuiButton--icon">
+                  <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
+                </button>
+                <button class="kuiButton kuiButton--basic kuiButton--icon">
+                  <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
+                </button>
+              </div>
             </div>
-
-             <div style="margin-left: 20px;" >
-              <button class="kuiButton kuiButton--basic">
-                Remove
-              </button>
-            </div>
-
-        </div>
-
-        <div style="margin-top: 20px;">
-          <button class="kuiButton kuiButton--primary" ng-click="doSearch()">
-            Search
-          </button>
+          </div>
         </div>
       </div>
-
-
-      <div class="searchresults" ng-if="showDropdown">
-        <ul style="list-style-type:none;padding-left: 5px">
-          <div>
-
-          <li ng-repeat="row in $parent.results" >
-            {{row.text}}
-          </li>
-          
-        </ul>
-      </div>
-
-    </div> 
+    </div>
 
   </div>
+  
 </div>

@@ -1,10 +1,10 @@
 {
   "name": "searchbox",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Search Resuts Helper",
   "main": "index.js",
   "kibana": {
-    "version": "kibana"
+    "version": "5.4.0"
   },
   "scripts": {
     "lint": "eslint",
@@ -21,5 +21,8 @@
     "chai": "^3.5.0",
     "eslint": "1.10.3",
     "eslint-plugin-mocha": "1.1.0"
+  },
+  "dependencies": {
+    "jsonformatter": "^0.6.0"
   }
 }

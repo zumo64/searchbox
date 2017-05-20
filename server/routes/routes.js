@@ -50,8 +50,8 @@ export default function (server) {
     	method: 'POST',
     	handler(req, reply) {
           server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'search', {
-          	index : 'product',
-          	type  : 't',
+          	index : ""+req.payload.index,
+          	type  : ""+req.payload.type,
           	body : ""+req.payload.query
           	
           }).then(function (response) {

@@ -2,7 +2,8 @@ import moment from 'moment';
 import chrome from 'ui/chrome';
 import uiModules from 'ui/modules';
 import uiRoutes from 'ui/routes';
-
+import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.js';
+import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.css';
 import 'ui/autoload/styles';
 import './less/main.less';
 import template from './templates/index.html';
@@ -22,7 +23,7 @@ uiRoutes
 });
 
 uiModules
-.get('app/searchbox', [])
+.get('app/searchbox', ['jsonFormatter'])
 .controller('searchbox', ['$scope','$route','$interval','$http', function ($scope, $route, $interval, $http) {
  
 
@@ -155,10 +156,17 @@ uiModules
               method: 'POST',
               url: '../searchbox/search/',
               data: {
-                query:$scope.searchQuery
+                query:$scope.searchQuery,
+                index:$scope.indexName,
+                type:$scope.typeName
               }
             }).success( function(data, status, headers, config) {
-        console.log("response "+data);
+        //console.log("response "+data);
+        if (data != null) {
+          $scope.response = data.hits;
+          $scope.total = data.hits.total;
+        }
+        
       }).error( function(data, status, headers, config) {
       console.log("NOK");
       });
