@@ -52,7 +52,9 @@ export default function (server) {
           server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'search', {
           	index : ""+req.payload.index,
           	type  : ""+req.payload.type,
-          	body : ""+req.payload.query
+          	body : ""+req.payload.query,
+          	size : ""+req.payload.pageSize,
+          	from :  ""+req.payload.pageSize * req.payload.pageNumber
           	
           }).then(function (response) {
         reply(response);

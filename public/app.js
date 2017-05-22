@@ -30,14 +30,17 @@ uiModules
   $scope.title = 'Searchbox';
   $scope.description = 'Search Resuts Helper';
   
-  $scope.indexName = "cyclops-suggest" ;
+  $scope.indexName = "" ;
   $scope.suggestField = "suggest_text";
-  $scope.typeName = "t";
+  $scope.typeName = "";
   $scope.fuzziness = "auto" ;
   $scope.minLength = "3" ;
   $scope.tabSelected = 0 ;
-  $scope.size = 5;
-  $scope.params = ["1"];
+  $scope.pageSize = 10;
+  $scope.resPerPage = 10;
+  $scope.pageNumber = 0;
+  $scope.params = [];  
+  $scope.searchBoxHint = "Type search terms ...";
 
   $scope.searchQuery = '{'+
   '"query": {'+
@@ -45,6 +48,8 @@ uiModules
   '}'+
 '}';
 
+  var anItem = {"item":""};
+  $scope.params.push(anItem);
 
   var $tabs = $('.kuiTab');
   var $selectedTab = undefined;
@@ -80,13 +85,13 @@ uiModules
     selectTab(event.target);
     if (event.target === $tabs[0] ) {
       $scope.tabSelected = 0;
-      $scope.searchBoxHint = "Search as you type terms"
+      
      
     }  
     else 
       if (event.target === $tabs[1] ) {
         $scope.tabSelected = 1;
-        $scope.searchBoxHint = "Search terms"
+        
      
       }
 
@@ -122,7 +127,7 @@ uiModules
                      $scope.indexName+"/"+
                      $scope.typeName+"/"+
                      $scope.fuzziness+"/"+
-                     $scope.size+"/"+
+                     $scope.pageSize+"/"+
                      $scope.suggestField+"/"+
                      $scope.searchStr).then (function (response) {
                         if (response.data.suggest && 
@@ -152,13 +157,23 @@ uiModules
 
 // SEARCH
   $scope.doSearch = function(event) {
+      
+      for (var i =0 ; i< $scope.params.length;i++) {
+        var param = $scope.params[i].item;
+        if (param != null && param != "") {
+          // replace @i by param
+        }
+      }
+
       $http({
               method: 'POST',
               url: '../searchbox/search/',
               data: {
                 query:$scope.searchQuery,
                 index:$scope.indexName,
-                type:$scope.typeName
+                type:$scope.typeName,
+                pageSize:$scope.resPerPage,
+                pageNumber:$scope.pageNumber
               }
             }).success( function(data, status, headers, config) {
         //console.log("response "+data);
@@ -172,6 +187,31 @@ uiModules
       });
                 
   }
+
+ $scope.nextPage = function(event) {
+      $http({
+              method: 'POST',
+              url: '../searchbox/search/',
+              data: {
+                query:$scope.searchQuery,
+                index:$scope.indexName,
+                type:$scope.typeName,
+                pageSize:$scope.resPerPage,
+                pageNumber:$scope.pageNumber
+              }
+            }).success( function(data, status, headers, config) {
+        //console.log("response "+data);
+        if (data != null) {
+          $scope.response = data.hits;
+          $scope.total = data.hits.total;
+        }
+        
+      }).error( function(data, status, headers, config) {
+      console.log("NOK");
+      });
+                
+  }
+
 
 
 

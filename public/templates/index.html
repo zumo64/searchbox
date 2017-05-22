@@ -91,9 +91,8 @@
                 </div>
               </td>
               <td class="kuiTableRowCell">
-                <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="searchQuery" required>
+                <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="$parent.searchQuery" required>
                 </textarea>
-
               </td>
 
             </tr>
@@ -173,7 +172,7 @@
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.size">
+                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.pageSize">
               </div>
             </td>
           </tr>
@@ -229,6 +228,7 @@
                     class="kuiToolBarSearchBox__input"
                     type="text"
                     placeholder="Enter search terms ..."
+                    ng-model="searchParam.item"
                   >
                 </div>
               </div>
@@ -252,7 +252,7 @@
 
               <div class="kuiToolBarSection">
                 <div class="kuiToolBarText">
-                  1 &ndash; 20 of 33
+                  {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
                 </div>
 
                 <div class="kuiButtonGroup kuiButtonGroup--united">
@@ -274,7 +274,7 @@
               <tr>
                
                 <th class="kuiTableHeaderCell">
-                  Response
+                  Responses
                 </th>
                 
               </tr>
@@ -299,20 +299,20 @@
           <div class="kuiToolBarFooter">
             <div class="kuiToolBarFooterSection">
               <div class="kuiToolBarText">
-                {{total}} hits found
+                {{total}} total hits found
               </div>
             </div>
 
             <div class="kuiToolBarFooterSection">
               <div class="kuiToolBarText">
-                1 &ndash; 20 of 33
+                {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
               </div>
 
               <div class="kuiButtonGroup kuiButtonGroup--united">
-                <button class="kuiButton kuiButton--basic kuiButton--icon">
+                <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
                   <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
                 </button>
-                <button class="kuiButton kuiButton--basic kuiButton--icon">
+                <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
                   <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
                 </button>
               </div>
