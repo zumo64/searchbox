@@ -19,7 +19,7 @@
         title="Quick Search"
         
       >
-        Auto Complete
+        Completion Suggester TAYG
       </button>
 
       <button
@@ -27,7 +27,7 @@
         title="Edit Script"
        
       >
-         Custom
+         Custom Search
       </button>
     </div>
 
@@ -229,13 +229,15 @@
                     type="text"
                     placeholder="Enter search terms ..."
                     ng-model="searchParam.item"
+                    ng-keyup="doTayg($event,searchParam.num)"
+
                   >
                 </div>
               </div>
 
               <div class="kuiToolBarSection">
 
-                <button ng-click="doSearch()" class="kuiButton kuiButton--primary">
+                <button ng-click="doSearch($event,searchParam.num)" class="kuiButton kuiButton--primary">
                   Search
                 </button>
 
@@ -249,6 +251,10 @@
 
                 
               </div>
+
+              <input type="checkbox" class="kuiCheckBox" ng-model="searchParam.tayg">
+              
+              <span>TAYG</span>
 
               <div class="kuiToolBarSection">
                 <div class="kuiToolBarText">
@@ -268,56 +274,111 @@
 
          
 
-          <!-- Field Titles-->
-          <table class="kuiTable">
-            <thead>
-              <tr>
-               
-                <th class="kuiTableHeaderCell">
-                  Responses
-                </th>
-                
-              </tr>
-            </thead>
 
-            <!-- results -->
-            <tbody>
-              <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
+          <div class="kuiTabs">
+              <button
+                class="kuiTab"
+                title="Hits"
+                ng-click="seeHitsTab($event)"
                 
-                <td class="kuiTableRowCell" >
+              >
+                Hits
+              </button>
+
+              <button
+                class="kuiTab"
+                title="Suggestions"
+                ng-click="seeSuggestTab($event)"
+               
+              >
+                 Suggestions
+              </button>
+          </div>
+
+
+          <div ng-if="searchTabSelected === 0">
+            <!-- Field Titles-->
+            <table class="kuiTable">
+              <thead>
+                <tr>
+                 
+                  <th class="kuiTableHeaderCell">
+                    Responses
+                  </th>
                   
-                  <json-formatter open="0" json="row._source"></json-formatter>
+                </tr>
+              </thead>
+
+              <!-- results -->
+              <tbody>
+                <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
+                  
+                  <td class="kuiTableRowCell" >
+                    
+                    <json-formatter open="0" json="row._source"></json-formatter>
 
 
-                </td>
-               
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                 
+                </tr>
+              </tbody>
+            </table>
 
-          <!-- ToolBarFooter -->
-          <div class="kuiToolBarFooter">
-            <div class="kuiToolBarFooterSection">
-              <div class="kuiToolBarText">
-                {{total}} total hits found
+
+            <!-- ToolBarFooter -->
+            <div class="kuiToolBarFooter">
+              <div class="kuiToolBarFooterSection">
+                <div class="kuiToolBarText">
+                  {{total}} total hits found
+                </div>
               </div>
-            </div>
 
-            <div class="kuiToolBarFooterSection">
-              <div class="kuiToolBarText">
-                {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
-              </div>
+              <div class="kuiToolBarFooterSection">
+                <div class="kuiToolBarText">
+                  {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
+                </div>
 
-              <div class="kuiButtonGroup kuiButtonGroup--united">
-                <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
-                  <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
-                </button>
-                <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
-                  <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
-                </button>
+                <div class="kuiButtonGroup kuiButtonGroup--united">
+                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
+                    <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
+                  </button>
+                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
+                    <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+
+          <div ng-if="searchTabSelected === 1">
+            <!-- Field Titles-->
+            <table class="kuiTable">
+              <thead>
+                <tr>
+                 
+                  <th class="kuiTableHeaderCell">
+                    Suggestions
+                  </th>
+                  
+                </tr>
+              </thead>
+
+              <!-- results -->
+              <tbody>
+                <tr class="kuiTableRow" ng-repeat="sugg in $parent.iterSuggesters[0]">
+                  
+                  <td class="kuiTableRowCell" ng-bind-html="sugg.highlighted | trust">
+                  
+                  </td>
+                 
+                </tr>
+              </tbody>
+            </table>
+           
+          </div>
+
+
         </div>
       </div>
     </div>
