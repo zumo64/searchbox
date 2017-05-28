@@ -195,6 +195,10 @@
     </div>
 
 
+    <div class="kuiIcon kuiIcon--error fa-warning" ng-show="apiError">
+      
+    </div>
+
 <!-- RESULTS -->
     <div class="kuiPanelBody" >
       <div ng-if="tabSelected === 0">
@@ -364,11 +368,11 @@
                 </tr>
               </thead>
 
-              <!-- results -->
+              <!-- results TODO check highlighted -->
               <tbody>
                 <tr class="kuiTableRow" ng-repeat="sugg in $parent.iterSuggesters[0]">
                   
-                  <td class="kuiTableRowCell" ng-bind-html="sugg.highlighted | trust">
+                  <td class="kuiTableRowCell" ng-bind-html="sugg.show | trust">
                   
                   </td>
                  

@@ -44,7 +44,7 @@ export default function (server) {
 
    
 
-//request.payload.echo
+// Custom Search
    server.route({
     	path: '/searchbox/search/',
     	method: 'POST',

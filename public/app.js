@@ -47,6 +47,7 @@ uiModules
   $scope.pageNumber = 0;
   $scope.params = [];  
   $scope.searchBoxHint = "Type search terms ...";
+  $scope.apiError = false;
 
   $scope.searchQuery = '{'+
   '"query": {'+
@@ -188,14 +189,13 @@ uiModules
               $scope.iterSuggesters = [];
             }
     }
-
-  }
+ }
 
 // SEARCH
-  $scope.doSearch = function(event,paramNum) {
+ $scope.doSearch = function(event,paramNum) {
       
 
-       var searchQueryReplaced = (' ' + $scope.searchQuery).slice(1);
+      var searchQueryReplaced = (' ' + $scope.searchQuery).slice(1);
 
       for (var i =0 ; i< $scope.params.length;i++) {
         var param = $scope.params[i].item;
@@ -206,10 +206,7 @@ uiModules
       }
 
       sendSearch(searchQueryReplaced);
-
-      
-                
-  }
+ }
 
 
  $scope.nextPage = function(event) {
@@ -254,33 +251,41 @@ $scope.seeHitsTab = function(event) {
                 pageNumber:$scope.pageNumber
               }
             }).success( function(data, status, headers, config) {
-        //console.log("response "+data);
-        if (data != null) {
-          $scope.response = data.hits;
-          $scope.suggest = data.suggest;
-          $scope.total = data.hits.total;
+              $scope.apiError = false;
+                //console.log("response "+data);
+                if (data != null) {
+                  $scope.response = data.hits;
+                  $scope.suggest = data.suggest;
+                  $scope.total = data.hits.total;
 
-          if ($scope.suggest != null) {
-            $scope.iterSuggesters = [];
-            for (var key in $scope.suggest) {
-              if ($scope.suggest.hasOwnProperty(key)  ) {
-                if ($scope.suggest[key].constructor === Array) {
+                  if ($scope.suggest != null) {
+                    $scope.iterSuggesters = [];
+                    for (var key in $scope.suggest) {
+                      if ($scope.suggest.hasOwnProperty(key)  ) {
+                        if ($scope.suggest[key].constructor === Array) {
 
-                  $scope.iterSuggesters.push($scope.suggest[key][0].options);
-                  var t = $scope.suggest[key][0].options;
+                            if ($scope.suggest[key][0].options[0].hasOwnProperty("highlighted")) {
+                              $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].highlighted;
+                            }
+                            else {
+                              $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].text;
+                            }
+                            $scope.iterSuggesters.push($scope.suggest[key][0].options);
+                                   
+                        }
+                        // console.log(key + " -> " +  $scope.suggest[key]);
+                        // console.log($scope.suggest[key].constructor === Array);
+                      }
+                    }
+
+                  }
+
                 }
-                // console.log(key + " -> " +  $scope.suggest[key]);
-                // console.log($scope.suggest[key].constructor === Array);
-              }
-            }
-
-          }
-
-        }
-        
-      }).error( function(data, status, headers, config) {
-      console.log("NOK");
-      });
+                
+              }).error( function(data, status, headers, config) {
+                console.log("NOK");
+                $scope.apiError = true;
+              });
   } 
 
 
