@@ -15,8 +15,9 @@
    
     <div class="kuiTabs">
       <button
-        class="kuiTab"
+        class="kuiTab kuiTab-isSelected"
         title="Quick Search"
+        ng-click="seeAutocompleteTab($event)"
         
       >
         Completion Suggester TAYG
@@ -25,6 +26,7 @@
       <button
         class="kuiTab"
         title="Edit Script"
+        ng-click="seeCustomSearchTab($event)"
        
       >
          Custom Search
@@ -33,7 +35,7 @@
 
 
 
-    <div class="kuiPanelBody" ng-if="tabSelected === 1">
+    <div class="kuiPanelBody" ng-if="selectedTab === 1">
        <table class="kuiTable kuiTable--fluid">
           <tbody>
          
@@ -103,7 +105,7 @@
 
  
 
-    <div class="kuiPanelBody" ng-if="tabSelected === 0">
+    <div class="kuiPanelBody" ng-if="selectedTab === 0">
       <table class="kuiTable kuiTable--fluid">
         <tbody>
        
@@ -201,7 +203,7 @@
 
 <!-- RESULTS -->
     <div class="kuiPanelBody" >
-      <div ng-if="tabSelected === 0">
+      <div ng-if="selectedTab === 0">
         <div style="display: flex;" >
             <div style="margin-right: 20px;">
                 <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.searchStr" >
@@ -219,7 +221,7 @@
           </ul>
         </div>
       </div>
-      <div ng-if="tabSelected === 1">
+      <div ng-if="selectedTab === 1">
 
         <div class="kuiControlledTable">
           <!-- ToolBar -->
@@ -241,7 +243,7 @@
 
               <div class="kuiToolBarSection">
 
-                <button ng-click="doSearch($event,searchParam.num)" class="kuiButton kuiButton--primary">
+                <button ng-click="doSearch()" class="kuiButton kuiButton--primary">
                   Search
                 </button>
 
@@ -266,10 +268,10 @@
                 </div>
 
                 <div class="kuiButtonGroup kuiButtonGroup--united">
-                  <button class="kuiButton kuiButton--basic kuiButton--icon">
+                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
                   </button>
-                  <button class="kuiButton kuiButton--basic kuiButton--icon">
+                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
                   </button>
                 </div>
@@ -281,10 +283,9 @@
 
           <div class="kuiTabs">
               <button
-                class="kuiTab"
+                class="kuiTab kuiTab-isSelected"
                 title="Hits"
                 ng-click="seeHitsTab($event)"
-                
               >
                 Hits
               </button>
@@ -293,7 +294,6 @@
                 class="kuiTab"
                 title="Suggestions"
                 ng-click="seeSuggestTab($event)"
-               
               >
                  Suggestions
               </button>

@@ -59,50 +59,16 @@ uiModules
   var anItem = {"item":"","tayg":false,"num":0};
   $scope.params.push(anItem);
 
-  var $tabs = $('.kuiTab');
-  var $selectedTab = undefined;
-  var $selectedSearchTab = undefined;
 
-
-  if (!$tabs.length) {
-    throw new Error('$tabs missing');
-  }
-
-  function selectTab(tab) {
-    if ($selectedTab) {
-      $selectedTab.removeClass('kuiTab-isSelected');
-    }
-
-    $selectedTab = $(tab);
-    $selectedTab.addClass('kuiTab-isSelected');
-  }
-
-
-  $tabs.on('click', function (event) {
-    selectTab(event.target);
-    if (event.target === $tabs[0] ) {
-      $scope.tabSelected = 0;
-      
-     
-    }  
-    else 
-      if (event.target === $tabs[1] ) {
-        $scope.tabSelected = 1;
-        selectTab($tabs[0]);
-     
-      }
-
-    $scope.$apply() ;
-  });
-
-  selectTab($tabs[0]);
-
-
+  // init tabs  
+  var $selectedSearchTab  = $('.kuiTab');
+  var $selectedTab = $('.kuiTab');
+  $scope.selectedTab = 0;
 
 
 // SUGGEST type as you go
 // TODO change it to a POST
-  $scope.doSuggest = function(event) {
+ $scope.doSuggest = function(event) {
     
     var isNewSearchNeeded = function(newTerm) {
         if ($scope.tabSelected == 0) {
@@ -150,7 +116,7 @@ uiModules
         else {
           event.preventDefault();
         }
-  }
+ }
 
 
 // TAYG
@@ -192,9 +158,9 @@ uiModules
  }
 
 // SEARCH
- $scope.doSearch = function(event,paramNum) {
+ $scope.doSearch = function() {
       
-
+      // clone the searchquery
       var searchQueryReplaced = (' ' + $scope.searchQuery).slice(1);
 
       for (var i =0 ; i< $scope.params.length;i++) {
@@ -211,19 +177,55 @@ uiModules
 
  $scope.nextPage = function(event) {
       
-     return;     
+     $scope.pageNumber++;
+     $scope.doSearch();
+    
  }
 
 
- 
+ $scope.prevPage = function(event) {
+    
+     if ($scope.pageNumber == 0) {
+      return;
+     }
+     $scope.pageNumber--;
+     $scope.doSearch();
+    
+ }
 
+
+// Main Tabs selection
+$scope.seeAutocompleteTab = function(event) {
+  if ($selectedTab) {
+      $selectedTab.removeClass('kuiTab-isSelected');
+    }
+    $scope.selectedTab = 0;
+    $selectedTab = $(event.target);
+    $selectedTab.addClass('kuiTab-isSelected');
+              
+ }
+
+ $scope.seeCustomSearchTab = function(event) {
+  if ($selectedTab) {
+      $selectedTab.removeClass('kuiTab-isSelected');
+    }
+
+    $scope.selectedTab = 1;
+    $selectedTab = $(event.target);
+    $selectedTab.addClass('kuiTab-isSelected');
+   
+ }
+
+ 
+// Suggests results / Search Results
 $scope.seeHitsTab = function(event) {
   if ($selectedSearchTab) {
       $selectedSearchTab.removeClass('kuiTab-isSelected');
     }
     $scope.searchTabSelected = 0;
     $selectedSearchTab = $(event.target);
-    $selectedSearchTab.addClass('kuiTab-isSelected');        
+    $selectedSearchTab.addClass('kuiTab-isSelected'); 
+         
  }
 
  $scope.seeSuggestTab = function(event) {
@@ -233,7 +235,8 @@ $scope.seeHitsTab = function(event) {
 
     $scope.searchTabSelected = 1;
     $selectedSearchTab = $(event.target);
-    $selectedSearchTab.addClass('kuiTab-isSelected');        
+    $selectedSearchTab.addClass('kuiTab-isSelected');
+        
  }
 
 
@@ -241,51 +244,51 @@ $scope.seeHitsTab = function(event) {
   var sendSearch = function(qry) {
 
     $http({
-              method: 'POST',
-              url: '../searchbox/search/',
-              data: {
-                query:qry,
-                index:$scope.indexName,
-                type:$scope.typeName,
-                pageSize:$scope.resPerPage,
-                pageNumber:$scope.pageNumber
-              }
-            }).success( function(data, status, headers, config) {
-              $scope.apiError = false;
-                //console.log("response "+data);
-                if (data != null) {
-                  $scope.response = data.hits;
-                  $scope.suggest = data.suggest;
-                  $scope.total = data.hits.total;
+          method: 'POST',
+          url: '../searchbox/search/',
+          data: {
+            query:qry,
+            index:$scope.indexName,
+            type:$scope.typeName,
+            pageSize:$scope.resPerPage,
+            pageNumber:$scope.pageNumber
+          }
+        }).success( function(data, status, headers, config) {
+          $scope.apiError = false;
+            //console.log("response "+data);
+            if (data != null) {
+              $scope.response = data.hits;
+              $scope.suggest = data.suggest;
+              $scope.total = data.hits.total;
 
-                  if ($scope.suggest != null) {
-                    $scope.iterSuggesters = [];
-                    for (var key in $scope.suggest) {
-                      if ($scope.suggest.hasOwnProperty(key)  ) {
-                        if ($scope.suggest[key].constructor === Array) {
+              if ($scope.suggest != null) {
+                $scope.iterSuggesters = [];
+                for (var key in $scope.suggest) {
+                  if ($scope.suggest.hasOwnProperty(key)  ) {
+                    if ($scope.suggest[key].constructor === Array) {
 
-                            if ($scope.suggest[key][0].options[0].hasOwnProperty("highlighted")) {
-                              $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].highlighted;
-                            }
-                            else {
-                              $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].text;
-                            }
-                            $scope.iterSuggesters.push($scope.suggest[key][0].options);
-                                   
+                        if ($scope.suggest[key][0].options[0].hasOwnProperty("highlighted")) {
+                          $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].highlighted;
                         }
-                        // console.log(key + " -> " +  $scope.suggest[key]);
-                        // console.log($scope.suggest[key].constructor === Array);
-                      }
+                        else {
+                          $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].text;
+                        }
+                        $scope.iterSuggesters.push($scope.suggest[key][0].options);
+                               
                     }
-
+                    // console.log(key + " -> " +  $scope.suggest[key]);
+                    // console.log($scope.suggest[key].constructor === Array);
                   }
-
                 }
-                
-              }).error( function(data, status, headers, config) {
-                console.log("NOK");
-                $scope.apiError = true;
-              });
+
+              }
+
+            }
+            
+          }).error( function(data, status, headers, config) {
+            console.log("NOK");
+            $scope.apiError = true;
+          });
   } 
 
 
