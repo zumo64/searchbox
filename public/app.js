@@ -189,8 +189,30 @@ uiModules
       return;
      }
      $scope.pageNumber--;
-     $scope.doSearch();
-    
+     $scope.doSearch();    
+ }
+
+
+// TODO increment the 
+ $scope.addParam = function(searchParam) {
+  var index = searchParam.num;
+  
+  var newParam = {"item":"","tayg":false,"num":index};
+  $scope.params.splice(index+1, 0, newParam);
+  for (var i = index+1 ; i < $scope.params.length;i++) {
+    $scope.params[i].num++;
+  }
+ }
+
+
+ // TODO increment the 
+ $scope.removeParam = function(searchParam) {
+  var index = searchParam.num;
+  
+  $scope.params.pop(index);
+  for (var i = index ; i < $scope.params.length;i++) {
+    $scope.params[i].num--;
+  }
  }
 
 

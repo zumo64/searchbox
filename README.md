@@ -1,7 +1,8 @@
 # searchbox
 
-> Search helper Kibana plugin
-Display search and completion results in a UI friendly way
+> Search UI wrapper Kibana plugin
+- Type As You Go search results
+- Search and Suggesters results in a UI friendly way
 
 ---
 

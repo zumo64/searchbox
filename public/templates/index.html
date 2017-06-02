@@ -212,11 +212,14 @@
 
         <div class="searchresults" ng-if="showDropdown">
           <ul style="list-style-type:none;padding-left: 5px">
-            <div>
+            <div ng-repeat="row in $parent.results" style="display: flex;" >
 
-              <li ng-repeat="row in $parent.results" >
+              <div style="width: 50%;">
                 {{row.text}}
-              </li>
+              </div>
+              <div style="width: 10%; font-size: large;">
+                {{row._score}}
+              </div>
             </div>  
           </ul>
         </div>
@@ -233,7 +236,7 @@
                   <input
                     class="kuiToolBarSearchBox__input"
                     type="text"
-                    placeholder="Enter search terms ..."
+                    placeholder="enter @{{searchParam.num}} param value"
                     ng-model="searchParam.item"
                     ng-keyup="doTayg($event,searchParam.num)"
 
@@ -247,13 +250,24 @@
                   Search
                 </button>
 
-                <button class="kuiButton kuiButton--primary">
-                  Add
-                </button>
+                <!--button class="kuiButton kuiButton--primary" ng-click="addParam(searchParam)">
+                  Add Param
+                </button-->
 
-                <button class="kuiButton kuiButton--primary">
-                  Remove
-                </button>
+                <!--button class="kuiButton kuiButton--primary" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1">
+                  Remove Param
+                </button-->
+
+                <a  class="kuiMicroButton" title="Add Param" ng-click="addParam(searchParam)">
+                    <span class="kuiIcon fa-plus"></span>
+                </a>
+
+
+                <a  class="kuiMicroButton" title="Remove Param" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1">
+                    <span class="kuiIcon fa-minus"></span>
+                </a>
+
+               
 
                 
               </div>
@@ -262,7 +276,7 @@
               
               <span>TAYG</span>
 
-              <div class="kuiToolBarSection">
+              <div class="kuiToolBarSection" ng-if="searchParam.num == -1">
                 <div class="kuiToolBarText">
                   {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
                 </div>
@@ -323,6 +337,15 @@
 
 
                   </td>
+
+                  <td class="kuiTableRowCell" >
+                    
+                    <div style="font-size: large;">
+                    {{row._score}}
+                    <div>
+
+
+                  </td>
                  
                 </tr>
               </tbody>
@@ -346,6 +369,7 @@
                   <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
                   </button>
+                  
                   <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
                   </button>
