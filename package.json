@@ -4,7 +4,7 @@
   "description": "Search Resuts Helper",
   "main": "index.js",
   "kibana": {
-    "version": "5.4.0"
+    "version": "kibana"
   },
   "scripts": {
     "lint": "eslint",

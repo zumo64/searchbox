@@ -46,7 +46,6 @@ uiModules
   $scope.resPerPage = 10;
   $scope.pageNumber = 0;
   $scope.params = [];  
-  $scope.searchBoxHint = "Type search terms ...";
   $scope.apiError = false;
 
   $scope.searchQuery = '{'+
@@ -60,10 +59,13 @@ uiModules
   $scope.params.push(anItem);
 
 
+  $scope.analyze = {"tayg":false,"text":"hello world"};
+
   // init tabs  
   var $selectedSearchTab  = $('.kuiTab');
   var $selectedTab = $('.kuiTab');
   $scope.selectedTab = 0;
+  $scope.searchBoxHint = "Type search terms ...";
 
 
 // SUGGEST type as you go
@@ -174,6 +176,41 @@ uiModules
       sendSearch(searchQueryReplaced);
  }
 
+ // Analyze
+  $scope.doAnalyzeSearch = function() {
+      if ($scope.analyzer == null || $scope.analyzer == "") {
+        $scope.analyzer = "standard";
+      }
+
+
+       $http({
+          method: 'POST',
+          url: '../searchbox/analyze/',
+          data: {
+            index:$scope.indexName,
+            text:$scope.analyze.text,
+            analyzer:$scope.analyzer
+          }
+        }).success( function(data, status, headers, config) {
+          $scope.apiError = false;
+           console.log("OK");
+            //console.log("response "+data);
+            if (data != null) {
+               $scope.results = data.tokens;
+               $scope.showDropdown = true;
+              
+
+            }
+            
+          }).error( function(data, status, headers, config) {
+            console.log("NOK");
+            $scope.apiError = true;
+            $scope.showDropdown = false;
+        });
+   
+
+ }
+
 
  $scope.nextPage = function(event) {
       
@@ -224,6 +261,7 @@ $scope.seeAutocompleteTab = function(event) {
     $scope.selectedTab = 0;
     $selectedTab = $(event.target);
     $selectedTab.addClass('kuiTab-isSelected');
+    $scope.searchBoxHint = "Type search terms ...";
               
  }
 
@@ -235,6 +273,19 @@ $scope.seeAutocompleteTab = function(event) {
     $scope.selectedTab = 1;
     $selectedTab = $(event.target);
     $selectedTab.addClass('kuiTab-isSelected');
+   
+ }
+
+
+ $scope.seeAnalysisTab = function(event) {
+  if ($selectedTab) {
+      $selectedTab.removeClass('kuiTab-isSelected');
+    }
+
+    $scope.selectedTab = 2;
+    $selectedTab = $(event.target);
+    $selectedTab.addClass('kuiTab-isSelected');
+    $scope.searchBoxHint = "Type text to analyze ...";
    
  }
 

@@ -20,21 +20,122 @@
         ng-click="seeAutocompleteTab($event)"
         
       >
-        Completion Suggester TAYG
+        Completion Suggester
       </button>
 
       <button
         class="kuiTab"
-        title="Edit Script"
+        title="Custom Search"
         ng-click="seeCustomSearchTab($event)"
        
       >
          Custom Search
       </button>
+
+
+       <button
+        class="kuiTab"
+        title="Analysis"
+        ng-click="seeAnalysisTab($event)"
+       
+      >
+         Text Analysis
+      </button>
     </div>
 
+    <!-- Completion suggester -->
+    <div class="kuiPanelBody" ng-if="selectedTab === 0">
+      <table class="kuiTable kuiTable--fluid">
+        <tbody>
+       
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Index Name
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+              </div>
+            </td>
+          </tr>
 
 
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Type Name
+              </div>
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
+              </div>
+            </td>
+
+          </tr>
+
+
+           <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Suggest Field Name
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Suggest Field" ng-model="$parent.suggestField">
+              </div>
+            </td>
+          </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Type as you Go nb Chars  
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="min Length" ng-model="$parent.minLength">
+              </div>
+            </td>
+          </tr>
+
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                Size
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.pageSize">
+              </div>
+            </td>
+          </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+               Max Fuzziness 
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="fuzziness" ng-model="$parent.fuzziness">
+              </div>
+            </td>
+          </tr>
+       
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Custom search suggester -->
     <div class="kuiPanelBody" ng-if="selectedTab === 1">
        <table class="kuiTable kuiTable--fluid">
           <tbody>
@@ -103,9 +204,8 @@
        </table>
     </div>
 
- 
-
-    <div class="kuiPanelBody" ng-if="selectedTab === 0">
+    <!-- Analysis suggester -->
+    <div class="kuiPanelBody" ng-if="selectedTab === 2">
       <table class="kuiTable kuiTable--fluid">
         <tbody>
        
@@ -126,31 +226,16 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Type Name
-              </div>
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
-              </div>
-            </td>
-
-          </tr>
-
-
-           <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Suggest Field Name
+                Analyzer Name
               </div>
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Suggest Field" ng-model="$parent.suggestField">
+                <input type="text" class="kuiTextInput" placeholder="Analyzer name" ng-model="$parent.analyzer">
               </div>
             </td>
           </tr>
+
 
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
@@ -165,36 +250,23 @@
             </td>
           </tr>
 
-
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Size
+                 TAYG 
               </div>
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.pageSize">
+                <input type="checkbox" class="kuiCheckBox" ng-model="analyze.tayg">
               </div>
             </td>
           </tr>
 
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-               Max Fuzziness 
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="fuzziness" ng-model="$parent.fuzziness">
-              </div>
-            </td>
-          </tr>
-       
         </tbody>
       </table>
     </div>
+  
 
 
     <div class="kuiIcon kuiIcon--error fa-warning" ng-show="apiError">
@@ -236,7 +308,7 @@
                   <input
                     class="kuiToolBarSearchBox__input"
                     type="text"
-                    placeholder="enter @{{searchParam.num}} param value"
+                    placeholder="enter param value @{{searchParam.num}}"
                     ng-model="searchParam.item"
                     ng-keyup="doTayg($event,searchParam.num)"
 
@@ -407,6 +479,30 @@
           </div>
 
 
+        </div>
+      </div>
+      <div ng-if="selectedTab === 2">
+        <div style="display: flex;" >
+            <div style="margin-right: 20px;">
+                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.analyze.text" >
+            </div>
+             <div style="margin-right: 20px;" ng-hide="analyze.tayg">
+                <button ng-click="doAnalyzeSearch()" class="kuiButton kuiButton--primary">
+                  Search
+                </button>
+              </div>
+        </div>
+
+        <div class="searchresults" ng-if="showDropdown">
+          <ul style="list-style-type:none;padding-left: 5px">
+            <div ng-repeat="row in $parent.results" style="display: flex;" >
+
+              <div style="width: 50%;">
+                {{row.token}}
+              </div>
+             
+            </div>  
+          </ul>
         </div>
       </div>
     </div>
