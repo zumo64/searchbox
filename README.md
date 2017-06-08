@@ -1,8 +1,38 @@
 # searchbox
 
 > Search UI wrapper Kibana plugin
-- Type As You Go search results
-- Search and Suggesters results in a UI friendly way
+
+## Features
+- Autocomplete quick test
+- Display paginated Search and Suggesters results 
+- Analyzer output quick test
+- Type as you go (TAYG) results
+
+## Autocomplete quick test
+Enter index, type, suggest field name , TAYG number of chars that will trigger the search, size of the response
+
+
+## Custom Search
+- Enter the body of the search including params (use @0, @1 ...  as tokens for the params)
+- Specify the param values in the search box 
+- add/remove  params using the +/- keys
+- toggle (TAYG) using the checkbox
+
+
+## Analysis quick test 
+- Enter the index name
+- Enter the analyzer name
+- Enter the text to analyze
+- press "search"
+
+
+## installation
+```sh
+#Kibana >= 5.x
+
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/0.0.1/searchbox-0.0.1.zip
+
+```
 
 ---
 
