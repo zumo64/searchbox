@@ -27,12 +27,16 @@ Enter index, type, suggest field name , TAYG number of chars that will trigger t
 
 
 ## installation
+Plugin works for Kibana 5.x.
+distribution available for versions 5.3.3, 5.4.0, 5.4.1.
+
 ```sh
 #Kibana >= 5.x
 
-./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/0.0.1/searchbox-0.0.1.zip
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/5.4.1/searchbox-0.0.1.zip
 
 ```
+
 
 ---
 
