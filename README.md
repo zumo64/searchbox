@@ -19,12 +19,51 @@ Enter index, type, suggest field name , TAYG number of chars that will trigger t
 - toggle type as you Go (TAYG) using the checkbox to see live results 
 - switch result tabs between suggestion and hits results
 
+Example of query that returns hits and suggestions  :
+```json
+{
+  "query": {
+    "match_all": {}
+  }, 
+    "suggest": {
+        "sugg1" : {
+            "prefix" : "watch",
+            "completion" : {
+                "field" : "suggest_text",
+                "fuzzy" : {
+                 			   "fuzziness" : "2"
+                			},
+                "size": 4,
+                "contexts": {
+                    "category": [ "generated" ]
+                }
+            }
+        },
+        "sugg2" : {
+            "prefix" : "watch",
+            "completion" : {
+                "field" : "suggest_text",
+                "fuzzy" : {
+                 			   "fuzziness" : "2"
+                			},
+                "size": 4,
+                "contexts": {
+                    "category": [ "generated" ]
+                }
+            }
+        }
+    }
+}
+```
 
 ## Analysis quick test 
 - Enter the index name
 - Enter the analyzer name
 - Enter the text to analyze
 - press "search"
+
+
+
 
 
 ## installation
