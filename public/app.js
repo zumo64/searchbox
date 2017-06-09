@@ -36,7 +36,7 @@ uiModules
   $scope.description = 'Search Resuts Helper';
   
   $scope.indexName = "" ;
-  $scope.suggestField = "suggest_text";
+  $scope.suggestField = "";
   $scope.typeName = "";
   $scope.fuzziness = "auto" ;
   $scope.minLength = "3" ;
@@ -98,9 +98,9 @@ uiModules
                      $scope.suggestField+"/"+
                      $scope.searchStr).then (function (response) {
                         if (response.data.suggest && 
-                              response.data.suggest.generated_phrase_suggestion &&
-                                 response.data.suggest.generated_phrase_suggestion[0].options.length > 0) {
-                          $scope.results = response.data.suggest.generated_phrase_suggestion[0].options;
+                              response.data.suggest.suggestions &&
+                                 response.data.suggest.suggestions[0].options.length > 0) {
+                          $scope.results = response.data.suggest.suggestions[0].options;
 
                           $scope.showDropdown = true;
                         }
@@ -340,14 +340,20 @@ $scope.seeHitsTab = function(event) {
                   if ($scope.suggest.hasOwnProperty(key)  ) {
                     if ($scope.suggest[key].constructor === Array) {
 
-                        if ($scope.suggest[key][0].options[0].hasOwnProperty("highlighted")) {
-                          $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].highlighted;
+                      for (var j=0; j< $scope.suggest[key][0].options.length;j++) {
+                        if ($scope.suggest[key][0].options[j].hasOwnProperty("highlighted")) {
+                          $scope.suggest[key][0].options[j].show = $scope.suggest[key][0].options[j].highlighted;
                         }
                         else {
-                          $scope.suggest[key][0].options[0].show = $scope.suggest[key][0].options[0].text;
+                          $scope.suggest[key][0].options[j].show = $scope.suggest[key][0].options[j].text;
                         }
-                        $scope.iterSuggesters.push($scope.suggest[key][0].options);
-                               
+                      } 
+                      var aGroup = {
+                        name:key,
+                        options:$scope.suggest[key][0].options
+                      }
+                      $scope.iterSuggesters.push(aGroup);
+                      
                     }
                     // console.log(key + " -> " +  $scope.suggest[key]);
                     // console.log($scope.suggest[key].constructor === Array);

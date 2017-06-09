@@ -86,7 +86,7 @@
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Suggest Field" ng-model="$parent.suggestField">
+                <input type="text" class="kuiTextInput" placeholder="Suggest Field Name" ng-model="$parent.suggestField">
               </div>
             </td>
           </tr>
@@ -94,7 +94,7 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Type as you Go nb Chars  
+                Type as you Go nb chars trigger  
               </div>
             </td>
             <td class="kuiTableRowCell">
@@ -465,8 +465,21 @@
               </thead>
 
               <!-- results TODO check highlighted -->
-              <tbody>
-                <tr class="kuiTableRow" ng-repeat="sugg in $parent.iterSuggesters[0]">
+
+              <tbody ng-repeat="group in $parent.iterSuggesters">
+              
+                <tr class="kuiTableRow">
+                  
+                  <td class="kuiTableRowCell" style="font-size: xx-large;">
+                  {{group.name}}
+                  </td>
+                 
+                </tr>
+
+
+              
+                
+                <tr class="kuiTableRow" ng-repeat="sugg in group.options">
                   
                   <td class="kuiTableRowCell" ng-bind-html="sugg.show | trust">
                   

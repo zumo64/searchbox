@@ -18,7 +18,7 @@ export default function (server) {
           	type  : req.params.type,
           	body : {
           		suggest: {
-          			generated_phrase_suggestion: {
+          			suggestions : {
           				prefix : ""+req.params.query,
       					completion : {
                 			field : ""+req.params.field,
