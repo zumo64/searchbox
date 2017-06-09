@@ -16,7 +16,8 @@ Enter index, type, suggest field name , TAYG number of chars that will trigger t
 - Enter the body of the search including params (use @0, @1 ...  as tokens for the params)
 - Specify the param values in the search box 
 - add/remove  params using the +/- keys
-- toggle (TAYG) using the checkbox
+- toggle type as you Go (TAYG) using the checkbox to see live results 
+- switch result tabs between suggestion and hits results
 
 
 ## Analysis quick test 
