@@ -1,4 +1,4 @@
-# searchbox
+# Searchbox
 
 > Search UI wrapper Kibana plugin
 
@@ -9,7 +9,7 @@
 - Type as you go (TAYG) results
 
 ## Autocomplete quick test
-Enter index, type, suggest field name , TAYG number of chars that will trigger the search, size of the response
+Enter index, type, suggest field name , number of chars that will trigger the search, size of the response.
 
 
 ## Custom Search
@@ -31,8 +31,8 @@ Example of query that returns hits and suggestions  :
             "completion" : {
                 "field" : "suggest_text",
                 "fuzzy" : {
-                 			   "fuzziness" : "2"
-                			},
+                 	"fuzziness" : "2"
+                },
                 "size": 4,
                 "contexts": {
                     "category": [ "generated" ]
@@ -44,8 +44,8 @@ Example of query that returns hits and suggestions  :
             "completion" : {
                 "field" : "suggest_text",
                 "fuzzy" : {
-                 			   "fuzziness" : "2"
-                			},
+                 	 "fuzziness" : "2"
+                },
                 "size": 4,
                 "contexts": {
                     "category": [ "generated" ]
@@ -56,7 +56,7 @@ Example of query that returns hits and suggestions  :
 }
 ```
 
-## Analysis quick test 
+## Analyzer quick test 
 - Enter the index name
 - Enter the analyzer name
 - Enter the text to analyze
@@ -68,7 +68,7 @@ Example of query that returns hits and suggestions  :
 
 ## installation
 Plugin works for Kibana 5.x.
-distribution available for versions 5.3.3, 5.4.0, 5.4.1.
+distributions available for versions 5.3.3, 5.4.0, 5.4.1.
 
 ```sh
 #Kibana >= 5.x
