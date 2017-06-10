@@ -212,12 +212,12 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Index Name
+                Enter Index Name
               </div>
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+                <input type="text" class="kuiTextInput" placeholder="Enter index name" ng-model="$parent.indexName">
               </div>
             </td>
           </tr>
@@ -226,7 +226,7 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Analyzer Name
+                Enter Analyzer Name
               </div>
             </td>
             <td class="kuiTableRowCell">
@@ -253,7 +253,7 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                 TAYG 
+                 Type as you Go 
               </div>
             </td>
             <td class="kuiTableRowCell">
@@ -496,17 +496,29 @@
       </div>
       <div ng-if="selectedTab === 2">
         <div style="display: flex;" >
-            <div style="margin-right: 20px;">
-                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.analyze.text" >
+            <div style="margin-right: 20px;width: 100%;">
+                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.analyze.text"  style="width: 100%;"">
             </div>
              <div style="margin-right: 20px;" ng-hide="analyze.tayg">
                 <button ng-click="doAnalyzeSearch()" class="kuiButton kuiButton--primary">
-                  Search
+                  Analyze
                 </button>
               </div>
         </div>
 
         <div class="searchresults" ng-if="showDropdown">
+          
+          <!--div style="width: 50%;font-size: x-large;">
+                Analyzed Text
+          </div>
+            <div style="margin-right: 20px;width: 100%;">
+               {{$parent.highlighted}}
+            </div-->
+
+         <div style="width: 50%;font-size: x-large;margin-top: 20px;">
+                Analyzed Tokens
+          </div>
+
           <ul style="list-style-type:none;padding-left: 5px">
             <div ng-repeat="row in $parent.results" style="display: flex;" >
 

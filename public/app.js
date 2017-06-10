@@ -59,7 +59,8 @@ uiModules
   $scope.params.push(anItem);
 
 
-  $scope.analyze = {"tayg":false,"text":"hello world"};
+  $scope.analyze = {"tayg":false,"text":""};
+
 
   // init tabs  
   var $selectedSearchTab  = $('.kuiTab');
@@ -67,7 +68,7 @@ uiModules
   $scope.selectedTab = 0;
   $scope.searchBoxHint = "Type search terms ...";
 
-
+  
 // SUGGEST type as you go
 // TODO change it to a POST
  $scope.doSuggest = function(event) {
@@ -196,6 +197,12 @@ uiModules
            console.log("OK");
             //console.log("response "+data);
             if (data != null) {
+
+              for (var i=0; i< data.tokens;i++) {
+
+              }
+               $scope.highlighted = $scope.analyze.text;
+
                $scope.results = data.tokens;
                $scope.showDropdown = true;
               
@@ -285,7 +292,7 @@ $scope.seeAutocompleteTab = function(event) {
     $scope.selectedTab = 2;
     $selectedTab = $(event.target);
     $selectedTab.addClass('kuiTab-isSelected');
-    $scope.searchBoxHint = "Type text to analyze ...";
+    $scope.searchBoxHint = "Enter text to analyze here ..";
    
  }
 
