@@ -1,6 +1,6 @@
 import moment from 'moment';
 import chrome from 'ui/chrome';
-import uiModules from 'ui/modules';
+import { uiModules } from 'ui/modules';
 import uiRoutes from 'ui/routes';
 import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.js';
 import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.css';
@@ -254,9 +254,11 @@ uiModules
   var index = searchParam.num;
   
   $scope.params.pop(index);
-  for (var i = index ; i < $scope.params.length;i++) {
-    $scope.params[i].num--;
-  }
+  // for (var i = index ; i < $scope.params.length;i++) {
+  //   if ($scope.params[i].num > 0) {
+  //     $scope.params[i].num--;
+  //   }
+  // }
  }
 
 
