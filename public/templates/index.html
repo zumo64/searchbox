@@ -130,6 +130,32 @@
               </div>
             </td>
           </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+              Context Name
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="context Name" ng-model="$parent.contextName">
+              </div>
+            </td>
+          </tr>
+
+           <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+              Contexts
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder='ex: "items","ddd"' ng-model="$parent.contexts">
+              </div>
+            </td>
+          </tr>
        
         </tbody>
       </table>
@@ -137,7 +163,7 @@
 
     <!-- Custom search suggester -->
     <div class="kuiPanelBody" ng-if="selectedTab === 1">
-       <table class="kuiTable kuiTable--fluid">
+       <table class="kuiTable kuiTable--fluid" style="width: 100%;">
           <tbody>
          
             <tr class="kuiTableRow">

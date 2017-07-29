@@ -39,6 +39,7 @@ uiModules
   $scope.suggestField = "";
   $scope.typeName = "";
   $scope.fuzziness = "auto" ;
+  $scope.contexts = "" ;
   $scope.minLength = "3" ;
   $scope.tabSelected = 0 ;
   $scope.searchTabSelected = 0 ;
@@ -87,17 +88,42 @@ uiModules
                 $scope.showDropdown = false;
             } 
             else if (isNewSearchNeeded($scope.searchStr)) {
-              
-                $scope.results = [];
+                var suggestDsl = {
+                  "suggest":{
+                    "suggestions":{
+                      "prefix" : ""+$scope.searchStr,
+                      "completion" : {
+                          "field" : ""+$scope.suggestField,
+                          "fuzzy" : {
+                            "fuzziness" : $scope.fuzziness
+                          },
+                          "size": $scope.pageSize
+                       
+                      }
+                    }
+                  }
+                };
 
-              
-                  $http.get("../searchbox/suggest/"+
-                     $scope.indexName+"/"+
-                     $scope.typeName+"/"+
-                     $scope.fuzziness+"/"+
-                     $scope.pageSize+"/"+
-                     $scope.suggestField+"/"+
-                     $scope.searchStr).then (function (response) {
+                // add one contexts
+                if ($scope.contextName != "" && $scope.contextName !=null) {
+                  suggestDsl.suggest.suggestions.completion.contexts = {};
+                  suggestDsl.suggest.suggestions.completion.contexts[$scope.contextName] = [];
+                  suggestDsl.suggest.suggestions.completion.contexts[$scope.contextName].push($scope.contexts);
+                }
+
+                $scope.results = [];
+                $http({
+                     url:"../searchbox/suggest/",
+                     method: 'POST',
+                    
+                    data : {
+                        index:$scope.indexName,
+                        type:$scope.typeName,
+                        body:JSON.stringify(suggestDsl)
+                    }
+
+
+                    }).then (function (response) {
                         if (response.data.suggest && 
                               response.data.suggest.suggestions &&
                                  response.data.suggest.suggestions[0].options.length > 0) {
@@ -253,12 +279,7 @@ uiModules
  $scope.removeParam = function(searchParam) {
   var index = searchParam.num;
   
-  $scope.params.pop(index);
-  // for (var i = index ; i < $scope.params.length;i++) {
-  //   if ($scope.params[i].num > 0) {
-  //     $scope.params[i].num--;
-  //   }
-  // }
+  $scope.params.pop(index); 
  }
 
 

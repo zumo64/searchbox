@@ -9,37 +9,21 @@ export default function (server) {
   });
 
 
-   server.route({
-    	path: '/searchbox/suggest/{index}/{type}/{fuzz}/{size}/{field}/{query}',
-    	method: 'GET',
-    	handler(req, reply) {
+  
+
+  server.route({
+      path: '/searchbox/suggest/',
+      method: 'POST',
+      handler(req, reply) {
           server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'search', {
-          	index : req.params.index,
-          	type  : req.params.type,
-          	body : {
-          		suggest: {
-          			suggestions : {
-          				prefix : ""+req.params.query,
-      					completion : {
-                			field : ""+req.params.field,
-                			fuzzy : {
-                 			   fuzziness : ""+req.params.fuzz
-                			},
-                			size: ""+req.params.size,
-                			contexts: {
-                    			category: [ 'generated' ]
-                			}
-            			}
-      				}
-    			}
-          	}
+            index : ""+req.payload.index,
+            type  : ""+req.payload.type,
+            body : JSON.parse(req.payload.body)
           }).then(function (response) {
         reply(response);
       });
     }
   });
-
-
 
 
    
