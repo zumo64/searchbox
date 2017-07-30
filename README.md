@@ -74,7 +74,7 @@ Just replace the right version on the path below
 ```sh
 #Kibana >= 5.4.1
 
-./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/5.4.1/searchbox-0.0.2.zip
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/5.5.1/searchbox-5.5.1.zip
 
 ```
 
