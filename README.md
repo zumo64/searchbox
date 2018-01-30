@@ -67,14 +67,14 @@ Example of query that returns hits and suggestions  :
 
 
 ## installation
-Plugin works for Kibana 5.x.
-distributions available for versions 5.3.3, 5.4.0, 5.4.1
+Plugin works for Kibana 5.x, 6.1.2
+distributions available for versions 5.3.3, 5.4.0, 5.4.1,6.1.2
 Just replace the right version on the path below
 
 ```sh
 #Kibana >= 5.4.1
 
-./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/5.4.1/searchbox-0.0.2.zip
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.1.2/searchbox-6.1.2.zip
 
 ```
 

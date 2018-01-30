@@ -55,9 +55,11 @@ export default function (server) {
     	method: 'POST',
     	handler(req, reply) {
           server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', {
-          	index : ""+req.payload.index,
-          	text : ""+req.payload.text,
-          	analyzer : ""+req.payload.analyzer
+          	index : ""+req.payload.index,         	
+            body : {
+              text : ""+req.payload.text,
+              analyzer : ""+req.payload.analyzer
+            }
           }).then(function (response) {
         reply(response);
       });

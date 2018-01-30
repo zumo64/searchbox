@@ -40,6 +40,7 @@ uiModules
   $scope.typeName = "";
   $scope.fuzziness = "auto" ;
   $scope.contexts = "" ;
+  $scope.sourceField = "" ;
   $scope.minLength = "3" ;
   $scope.tabSelected = 0 ;
   $scope.searchTabSelected = 0 ;
@@ -109,6 +110,14 @@ uiModules
                   suggestDsl.suggest.suggestions.completion.contexts = {};
                   suggestDsl.suggest.suggestions.completion.contexts[$scope.contextName] = [];
                   suggestDsl.suggest.suggestions.completion.contexts[$scope.contextName].push($scope.contexts);
+                }
+
+                if ($scope.sourceField!= "" && $scope.sourceField!=null) {
+                  suggestDsl._source = $scope.sourceField;
+                  $scope.sourceFieldRequested = true;
+                }
+                else {
+                  $scope.sourceFieldRequested = false;
                 }
 
                 $scope.results = [];
@@ -218,24 +227,24 @@ uiModules
             text:$scope.analyze.text,
             analyzer:$scope.analyzer
           }
-        }).success( function(data, status, headers, config) {
+        }).then( function(response, status, headers, config) {
           $scope.apiError = false;
            console.log("OK");
             //console.log("response "+data);
-            if (data != null) {
+            if (response != null) {
 
-              for (var i=0; i< data.tokens;i++) {
+              for (var i=0; i< response.data.tokens;i++) {
 
               }
                $scope.highlighted = $scope.analyze.text;
 
-               $scope.results = data.tokens;
+               $scope.results = response.data.tokens;
                $scope.showDropdown = true;
               
 
             }
             
-          }).error( function(data, status, headers, config) {
+          },  function(data, status, headers, config) {
             console.log("NOK");
             $scope.apiError = true;
             $scope.showDropdown = false;
@@ -356,13 +365,13 @@ $scope.seeHitsTab = function(event) {
             pageSize:$scope.resPerPage,
             pageNumber:$scope.pageNumber
           }
-        }).success( function(data, status, headers, config) {
+        }).then( function(ret, status, headers, config) {
           $scope.apiError = false;
             //console.log("response "+data);
-            if (data != null) {
-              $scope.response = data.hits;
-              $scope.suggest = data.suggest;
-              $scope.total = data.hits.total;
+            if (ret != null) {
+              $scope.response = ret.data.hits;
+              $scope.suggest = ret.data.suggest;
+              $scope.total = ret.data.hits.total;
 
               if ($scope.suggest != null) {
                 $scope.iterSuggesters = [];
@@ -394,7 +403,7 @@ $scope.seeHitsTab = function(event) {
 
             }
             
-          }).error( function(data, status, headers, config) {
+          },  function(data, status, headers, config) {
             console.log("NOK");
             $scope.apiError = true;
           });

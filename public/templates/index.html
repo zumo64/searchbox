@@ -94,6 +94,19 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
+                Source Field
+              </div>
+            </td>
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
+                <input type="text" class="kuiTextInput" placeholder="Source Field Name" ng-model="$parent.sourceField">
+              </div>
+            </td>
+          </tr>
+
+          <tr class="kuiTableRow">
+            <td class="kuiTableRowCell">
+              <div class="kuiTableRowCell__liner">
                 Type as you Go nb chars trigger  
               </div>
             </td>
@@ -312,9 +325,14 @@
           <ul style="list-style-type:none;padding-left: 5px">
             <div ng-repeat="row in $parent.results" style="display: flex;" >
 
-              <div style="width: 50%;">
+            
+              <div style="width: 50%;" ng-if="sourceFieldRequested === false">
                 {{row.text}}
               </div>
+              <div style="width: 50%;" ng-if="sourceFieldRequested">
+                {{row._source[$parent.sourceField]}}
+              </div>
+
               <div style="width: 10%; font-size: large;">
                 {{row._score}}
               </div>
