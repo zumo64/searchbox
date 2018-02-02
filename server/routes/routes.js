@@ -54,13 +54,17 @@ export default function (server) {
     	path: '/searchbox/analyze/',
     	method: 'POST',
     	handler(req, reply) {
-          server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', {
-          	index : ""+req.payload.index,         	
+        var jRequest = {           
             body : {
               text : ""+req.payload.text,
               analyzer : ""+req.payload.analyzer
             }
-          }).then(function (response) {
+          }
+        if (req.payload.index != null && req.payload.index != "") {
+         jRequest[index] = ""+req.payload.index
+        }
+
+        server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(function (response) {
         reply(response);
       });
   }
