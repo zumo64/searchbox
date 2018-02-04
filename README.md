@@ -3,16 +3,16 @@
 > Search UI wrapper Kibana plugin
 
 ## Features
-- Autocomplete quick test
+- Autocomplete quick test viewing results as you typing search terms 
 - Display paginated Search and Suggesters results 
 - Analyzer output quick test
 - Type as you go (TAYG) results
 
-## Autocomplete quick test
+## TAB 1 Autocomplete quick test
 Enter index, type, suggest field name , number of chars that will trigger the search, size of the response.
 
 
-## Custom Search
+## TAB 2 Custom Search
 - Enter the body of the search including params (use @0, @1 ...  as tokens for the params)
 - Specify the param values in the search box 
 - add/remove  params using the +/- keys
