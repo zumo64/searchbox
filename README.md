@@ -2,6 +2,9 @@
 
 > Search UI wrapper Kibana plugin
 
+<img src="https://github.com/zumo64/searchbox/blob/master/searchbox.png">
+
+
 ## Features
 - Autocomplete quick test viewing results as you typing search terms 
 - Display paginated Search and Suggesters results 
@@ -9,50 +12,42 @@
 - Type as you go (TAYG) results
 
 ## TAB 1 Autocomplete quick test
-Enter index, type, suggest field name , number of chars that will trigger the search, size of the response.
+Enter index, type, suggest field name , min number of chars that will trigger the search, size of the response.
 
 
 ## TAB 2 Custom Search
-- Enter the body of the search including params (use @0, @1 ...  as tokens for the params)
+- Enter or paste the body of the search on the textArea including parameters (use @0, @1 .. as token values).
 - Specify the param values in the search box 
-- add/remove  params using the +/- keys
-- toggle type as you Go (TAYG) using the checkbox to see live results 
-- switch result tabs between suggestion and hits results
+- add/remove  params values using the "+" an "-" icons 
+- toggle Type as you Go (TAYG) using the checkbox to see results "live"
+- switch result tabs between suggestion and hits to see search/suggestion results
 
-Example of query that returns hits and suggestions  :
+Example of query that returns hits and suggestions taken from https://gist.github.com/zumo64/ce2534b7ac57320ad248d0906e866999
+Just paste the code below in the Textarea on the tab "Custom Search"
 ```json
 {
   "query": {
     "match_all": {}
   }, 
-    "suggest": {
-        "sugg1" : {
-            "prefix" : "watch",
-            "completion" : {
-                "field" : "suggest_text",
-                "fuzzy" : {
-                 	"fuzziness" : "2"
-                },
-                "size": 4,
-                "contexts": {
-                    "category": [ "generated" ]
-                }
-            }
-        },
-        "sugg2" : {
-            "prefix" : "watch",
-            "completion" : {
-                "field" : "suggest_text",
-                "fuzzy" : {
-                 	 "fuzziness" : "2"
-                },
-                "size": 4,
-                "contexts": {
-                    "category": [ "generated" ]
-                }
-            }
+  "suggest": {
+    "my-suggest-1" : {
+      "text" : "@0",
+      "term" : {
+        "field" : "name"
+      }
+    },
+    "my-suggest-2" : {
+      "text" : "@1",
+      "phrase" : {
+        "field" : "description",
+        "max_errors":2,
+        "highlight": {
+          "pre_tag": "<em>",
+          "post_tag": "</em>"
         }
+      }
     }
+  }
 }
 ```
 
@@ -63,12 +58,9 @@ Example of query that returns hits and suggestions  :
 - press "search"
 
 
-
-
-
 ## installation
-Plugin works for Kibana 5.x, 6.1.2
-distributions available for versions 5.3.3, 5.4.0, 5.4.1,6.1.2
+latest version available for 6.1.2, 6.1.1
+distributions available for versions 5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1
 Just replace the right version on the path below
 
 ./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.1.2/searchbox-6.1.2.zip
