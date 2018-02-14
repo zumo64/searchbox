@@ -1,9 +1,9 @@
 
 <div ng-controller="searchbox">
-  
+
 
   <div class="kuiPanel kuiPanel--withHeader" >
-    
+
     <div class="kuiPanelHeader">
       <div class="kuiPanelHeaderSection">
         <div class="kuiPanelHeader__title">
@@ -12,13 +12,12 @@
       </div>
     </div>
 
-   
+
     <div class="kuiTabs">
       <button
         class="kuiTab kuiTab-isSelected"
         title="Quick Search"
         ng-click="seeAutocompleteTab($event)"
-        
       >
         Completion Suggester
       </button>
@@ -27,7 +26,7 @@
         class="kuiTab"
         title="Custom Search"
         ng-click="seeCustomSearchTab($event)"
-       
+
       >
          Custom Search
       </button>
@@ -37,7 +36,7 @@
         class="kuiTab"
         title="Analysis"
         ng-click="seeAnalysisTab($event)"
-       
+
       >
          Text Analysis
       </button>
@@ -47,7 +46,7 @@
     <div class="kuiPanelBody" ng-if="selectedTab === 0">
       <table class="kuiTable kuiTable--fluid">
         <tbody>
-       
+
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
@@ -56,7 +55,29 @@
             </td>
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+
+                <input id="indices" type="text" class="kuiTextInput" placeholder="Index name" ng-keyup="queryIndexName($parent.indexName)" ng-model="$parent.indexName" ng-blur="$parent.matchedIndices = null">
+
+                <div id="suggest_container">
+
+                    <div ng-if="$parent.matchedIndices.length > 0">
+                       <div id="autosuggest" >
+                           This pattern matches:
+                          <p class="match-ok" ng-repeat="match in $parent.matchedIndices">
+                              {{match}}
+                          </p>
+                       </div>
+                    </div>
+
+                    <div ng-if="$parent.indexName && $parent.matchedIndices.length == 0">
+                      <div id="autosuggest" class="match-fail">
+                          no matches for {{$parent.indexName}}
+                      </div>
+                    </div>
+                </div>
+
+
+
               </div>
             </td>
           </tr>
@@ -107,7 +128,7 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-                Type as you Go nb chars trigger  
+                Type as you Go nb chars trigger
               </div>
             </td>
             <td class="kuiTableRowCell">
@@ -134,7 +155,7 @@
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
-               Max Fuzziness 
+               Max Fuzziness
               </div>
             </td>
             <td class="kuiTableRowCell">
@@ -169,7 +190,7 @@
               </div>
             </td>
           </tr>
-       
+
         </tbody>
       </table>
     </div>
@@ -178,7 +199,7 @@
     <div class="kuiPanelBody" ng-if="selectedTab === 1">
        <table class="kuiTable kuiTable--fluid" style="width: 100%;">
           <tbody>
-         
+
             <tr class="kuiTableRow">
               <td class="kuiTableRowCell">
                 <div class="kuiTableRowCell__liner">
@@ -247,7 +268,7 @@
     <div class="kuiPanelBody" ng-if="selectedTab === 2">
       <table class="kuiTable kuiTable--fluid">
         <tbody>
-       
+
           <tr class="kuiTableRow">
             <td class="kuiTableRowCell">
               <div class="kuiTableRowCell__liner">
@@ -278,11 +299,11 @@
         </tbody>
       </table>
     </div>
-  
+
 
 
     <div class="kuiIcon kuiIcon--error fa-warning" ng-show="apiError">
-      
+
     </div>
 
 <!-- RESULTS -->
@@ -298,7 +319,7 @@
           <ul style="list-style-type:none;padding-left: 5px">
             <div ng-repeat="row in $parent.results" style="display: flex;" >
 
-            
+
               <div style="width: 50%;" ng-if="sourceFieldRequested === false">
                 {{row.text}}
               </div>
@@ -309,7 +330,7 @@
               <div style="width: 10%; font-size: large;">
                 {{row._score}}
               </div>
-            </div>  
+            </div>
           </ul>
         </div>
       </div>
@@ -356,13 +377,13 @@
                     <span class="kuiIcon fa-minus"></span>
                 </a>
 
-               
 
-                
+
+
               </div>
 
               <input type="checkbox" class="kuiCheckBox" ng-model="searchParam.tayg">
-              
+
               <span>TAYG</span>
 
               <div class="kuiToolBarSection" ng-if="searchParam.num == -1">
@@ -381,7 +402,7 @@
               </div>
           </div>
 
-         
+
 
 
           <div class="kuiTabs">
@@ -408,34 +429,34 @@
             <table class="kuiTable">
               <thead>
                 <tr>
-                 
+
                   <th class="kuiTableHeaderCell">
                     Responses
                   </th>
-                  
+
                 </tr>
               </thead>
 
               <!-- results -->
               <tbody>
                 <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
-                  
+
                   <td class="kuiTableRowCell" >
-                    
+
                     <json-formatter open="0" json="row._source"></json-formatter>
 
 
                   </td>
 
                   <td class="kuiTableRowCell" >
-                    
+
                     <div style="font-size: large;">
                     {{row._score}}
                     <div>
 
 
                   </td>
-                 
+
                 </tr>
               </tbody>
             </table>
@@ -458,7 +479,7 @@
                   <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
                   </button>
-                  
+
                   <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
                     <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
                   </button>
@@ -473,39 +494,39 @@
             <table class="kuiTable">
               <thead>
                 <tr>
-                 
+
                   <th class="kuiTableHeaderCell">
                     Suggestions
                   </th>
-                  
+
                 </tr>
               </thead>
 
               <!-- results TODO check highlighted -->
 
               <tbody ng-repeat="group in $parent.iterSuggesters">
-              
+
                 <tr class="kuiTableRow">
-                  
+
                   <td class="kuiTableRowCell" style="font-size: xx-large;">
                   {{group.name}}
                   </td>
-                 
+
                 </tr>
 
 
-              
-                
+
+
                 <tr class="kuiTableRow" ng-repeat="sugg in group.options">
-                  
+
                   <td class="kuiTableRowCell" ng-bind-html="sugg.show | trust">
-                  
+
                   </td>
-                 
+
                 </tr>
               </tbody>
             </table>
-           
+
           </div>
 
 
@@ -524,7 +545,7 @@
         </div>
 
         <div class="searchresults" ng-if="showDropdown">
-          
+
           <!--div style="width: 50%;font-size: x-large;">
                 Analyzed Text
           </div>
@@ -542,13 +563,13 @@
               <div style="width: 50%;">
                 {{row.token}}
               </div>
-             
-            </div>  
+
+            </div>
           </ul>
         </div>
       </div>
     </div>
 
   </div>
-  
+
 </div>
