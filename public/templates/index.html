@@ -10,8 +10,8 @@
                   </div>
             </div>
 
-            <div class="tabs-container" >
-                  <div class="tabs-left" >
+            <div class="tabs-container">
+                  <div class="tabs-left">
 
                         <div class="kuiTabs">
                               <button class="kuiTab kuiTab-isSelected" title="Quick Search" ng-click="seeAutocompleteTab($event)">
@@ -178,7 +178,7 @@
 
                   <!-- Custom search suggester -->
                   <div class="kuiPanelBody" ng-if="selectedTab === 1">
-                        <table class="kuiTable " >
+                        <table class="kuiTable ">
                               <tbody>
 
                                     <tr class="kuiTableRow">
@@ -189,7 +189,27 @@
                                           </td>
                                           <td class="kuiTableRowCell">
                                                 <div class="kuiTableRowCell__liner">
-                                                      <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+
+                                                      <input id="indices" type="text" class="kuiTextInput" placeholder="Index name" ng-keyup="queryIndexName($parent.indexName)" ng-model="$parent.indexName" ng-blur="$parent.matchedIndices = null">
+
+                                                      <div id="suggest_container">
+
+                                                            <div ng-if="$parent.matchedIndices.length > 0">
+                                                                  <div id="autosuggest">
+                                                                        This pattern matches:
+                                                                        <p class="match-ok" ng-repeat="match in $parent.matchedIndices">
+                                                                              {{match}}
+                                                                        </p>
+                                                                  </div>
+                                                            </div>
+
+                                                            <div ng-if="$parent.indexName && $parent.matchedIndices.length == 0">
+                                                                  <div id="autosuggest" class="match-fail">
+                                                                        no matches for
+                                                                        {{$parent.indexName}}
+                                                                  </div>
+                                                            </div>
+                                                      </div>
                                                 </div>
                                           </td>
                                     </tr>
@@ -253,7 +273,26 @@
                               </td>
                               <td class="kuiTableRowCell">
                                     <div class="kuiTableRowCell__liner">
-                                          <input type="text" class="kuiTextInput" placeholder="Enter index name" ng-model="$parent.indexName">
+                                          <input id="indices" type="text" class="kuiTextInput" placeholder="Index name" ng-keyup="queryIndexName($parent.indexName)" ng-model="$parent.indexName" ng-blur="$parent.matchedIndices = null">
+
+                                          <div id="suggest_container">
+
+                                                <div ng-if="$parent.matchedIndices.length > 0">
+                                                      <div id="autosuggest">
+                                                            This pattern matches:
+                                                            <p class="match-ok" ng-repeat="match in $parent.matchedIndices">
+                                                                  {{match}}
+                                                            </p>
+                                                      </div>
+                                                </div>
+
+                                                <div ng-if="$parent.indexName && $parent.matchedIndices.length == 0">
+                                                      <div id="autosuggest" class="match-fail">
+                                                            no matches for
+                                                            {{$parent.indexName}}
+                                                      </div>
+                                                </div>
+                                          </div>
                                     </div>
                               </td>
                         </tr>
@@ -279,10 +318,7 @@
 
 </div>
 
-
-
 <div class="tabs-right">
-
 
       <!-- RESULTS -->
       <div class="kuiPanelBody">
