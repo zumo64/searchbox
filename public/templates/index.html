@@ -1,575 +1,521 @@
-
 <div ng-controller="searchbox">
 
+      <div class="kuiPanel kuiPanel--withHeader">
 
-  <div class="kuiPanel kuiPanel--withHeader" >
-
-    <div class="kuiPanelHeader">
-      <div class="kuiPanelHeaderSection">
-        <div class="kuiPanelHeader__title">
-          Search Test Box
-        </div>
-      </div>
-    </div>
-
-
-    <div class="kuiTabs">
-      <button
-        class="kuiTab kuiTab-isSelected"
-        title="Quick Search"
-        ng-click="seeAutocompleteTab($event)"
-      >
-        Completion Suggester
-      </button>
-
-      <button
-        class="kuiTab"
-        title="Custom Search"
-        ng-click="seeCustomSearchTab($event)"
-
-      >
-         Custom Search
-      </button>
-
-
-       <button
-        class="kuiTab"
-        title="Analysis"
-        ng-click="seeAnalysisTab($event)"
-
-      >
-         Text Analysis
-      </button>
-    </div>
-
-    <!-- Completion suggester -->
-    <div class="kuiPanelBody" ng-if="selectedTab === 0">
-      <table class="kuiTable kuiTable--fluid">
-        <tbody>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Index Name
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-
-                <input id="indices" type="text" class="kuiTextInput" placeholder="Index name" ng-keyup="queryIndexName($parent.indexName)" ng-model="$parent.indexName" ng-blur="$parent.matchedIndices = null">
-
-                <div id="suggest_container">
-
-                    <div ng-if="$parent.matchedIndices.length > 0">
-                       <div id="autosuggest" >
-                           This pattern matches:
-                          <p class="match-ok" ng-repeat="match in $parent.matchedIndices">
-                              {{match}}
-                          </p>
-                       </div>
-                    </div>
-
-                    <div ng-if="$parent.indexName && $parent.matchedIndices.length == 0">
-                      <div id="autosuggest" class="match-fail">
-                          no matches for {{$parent.indexName}}
-                      </div>
-                    </div>
-                </div>
-
-
-
-              </div>
-            </td>
-          </tr>
-
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Type Name
-              </div>
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
-              </div>
-            </td>
-
-          </tr>
-
-
-           <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Suggest Field Name
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Suggest Field Name" ng-model="$parent.suggestField">
-              </div>
-            </td>
-          </tr>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Source Field
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Source Field Name" ng-model="$parent.sourceField">
-              </div>
-            </td>
-          </tr>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Type as you Go nb chars trigger
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="min Length" ng-model="$parent.minLength">
-              </div>
-            </td>
-          </tr>
-
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Size
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.pageSize">
-              </div>
-            </td>
-          </tr>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-               Max Fuzziness
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="fuzziness" ng-model="$parent.fuzziness">
-              </div>
-            </td>
-          </tr>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-              Context Name
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="context Name" ng-model="$parent.contextName">
-              </div>
-            </td>
-          </tr>
-
-           <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-              Contexts
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder='ex: "items","ddd"' ng-model="$parent.contexts">
-              </div>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Custom search suggester -->
-    <div class="kuiPanelBody" ng-if="selectedTab === 1">
-       <table class="kuiTable kuiTable--fluid" style="width: 100%;">
-          <tbody>
-
-            <tr class="kuiTableRow">
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  Index Name
-                </div>
-              </td>
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
-                </div>
-              </td>
-            </tr>
-
-
-            <tr class="kuiTableRow">
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  Type Name
-                </div>
-                </div>
-              </td>
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  <input type="text"  class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
-                </div>
-              </td>
-
-            </tr>
-
-
-
-             <tr class="kuiTableRow">
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  Results per Page
-                </div>
-              </td>
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  <input type="text"  class="kuiTextInput" placeholder="Results per Page" ng-model="$parent.resPerPage">
-                </div>
-              </td>
-
-            </tr>
-
-
-            <tr class="kuiTableRow">
-              <td class="kuiTableRowCell">
-                <div class="kuiTableRowCell__liner">
-                  Query body
-                </div>
-                </div>
-              </td>
-              <td class="kuiTableRowCell">
-                <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="$parent.searchQuery" required>
-                </textarea>
-              </td>
-
-            </tr>
-
-          </tbody>
-       </table>
-    </div>
-
-    <!-- Analysis suggester -->
-    <div class="kuiPanelBody" ng-if="selectedTab === 2">
-      <table class="kuiTable kuiTable--fluid">
-        <tbody>
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Enter Index Name
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Enter index name" ng-model="$parent.indexName">
-              </div>
-            </td>
-          </tr>
-
-
-          <tr class="kuiTableRow">
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                Enter Analyzer Name
-              </div>
-            </td>
-            <td class="kuiTableRowCell">
-              <div class="kuiTableRowCell__liner">
-                <input type="text" class="kuiTextInput" placeholder="Analyzer name" ng-model="$parent.analyzer">
-              </div>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-
-
-    <div class="kuiIcon kuiIcon--error fa-warning" ng-show="apiError">
-
-    </div>
-
-<!-- RESULTS -->
-    <div class="kuiPanelBody" >
-      <div ng-if="selectedTab === 0">
-        <div style="display: flex;" >
-            <div style="margin-right: 20px;">
-                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.searchStr" >
+            <div class="kuiPanelHeader">
+                  <div class="kuiPanelHeaderSection">
+                        <div class="kuiPanelHeader__title">
+                              Search Test Box
+                        </div>
+                  </div>
             </div>
-        </div>
 
-        <div class="searchresults" ng-if="showDropdown">
-          <ul style="list-style-type:none;padding-left: 5px">
-            <div ng-repeat="row in $parent.results" style="display: flex;" >
+            <div class="tabs-container" >
+                  <div class="tabs-left" >
 
+                        <div class="kuiTabs">
+                              <button class="kuiTab kuiTab-isSelected" title="Quick Search" ng-click="seeAutocompleteTab($event)">
+                                    Completion Suggester
+                              </button>
 
-              <div style="width: 50%;" ng-if="sourceFieldRequested === false">
-                {{row.text}}
-              </div>
-              <div style="width: 50%;" ng-if="sourceFieldRequested">
-                {{row._source[$parent.sourceField]}}
-              </div>
+                              <button class="kuiTab" title="Custom Search" ng-click="seeCustomSearchTab($event)">
+                                    Custom Search
+                              </button>
 
-              <div style="width: 10%; font-size: large;">
-                {{row._score}}
-              </div>
-            </div>
-          </ul>
-        </div>
-      </div>
-      <div ng-if="selectedTab === 1">
+                              <button class="kuiTab" title="Analysis" ng-click="seeAnalysisTab($event)">
+                                    Text Analysis
+                              </button>
+                        </div>
 
-        <div class="kuiControlledTable">
-          <!-- ToolBar -->
-          <div class="kuiToolBar" ng-repeat="searchParam in params">
+                        <!-- Completion suggester -->
+                        <div class="kuiPanelBody" ng-if="selectedTab === 0">
+                              <table class="kuiTable ">
+                                    <tbody>
 
-              <div class="kuiToolBarSearch">
-                <div class="kuiToolBarSearchBox">
-                  <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
-                  <input
-                    class="kuiToolBarSearchBox__input"
-                    type="text"
-                    placeholder="enter param value @{{searchParam.num}}"
-                    ng-model="searchParam.item"
-                    ng-keyup="doTayg($event,searchParam.num)"
+                                          <tr class="kuiTableRow">
+                                                <td class="kuiTableRowCell">
+                                                      <div class="kuiTableRowCell__liner">
+                                                            Index Name
+                                                      </div>
+                                                </td>
+                                                <td class="kuiTableRowCell">
+                                                      <div class="kuiTableRowCell__liner">
 
-                  >
-                </div>
-              </div>
+                                                            <input id="indices" type="text" class="kuiTextInput" placeholder="Index name" ng-keyup="queryIndexName($parent.indexName)" ng-model="$parent.indexName" ng-blur="$parent.matchedIndices = null">
 
-              <div class="kuiToolBarSection">
+                                                            <div id="suggest_container">
 
-                <button ng-click="doSearch()" class="kuiButton kuiButton--primary">
-                  Search
-                </button>
+                                                                  <div ng-if="$parent.matchedIndices.length > 0">
+                                                                        <div id="autosuggest">
+                                                                              This pattern matches:
+                                                                              <p class="match-ok" ng-repeat="match in $parent.matchedIndices">
+                                                                                    {{match}}
+                                                                              </p>
+                                                                        </div>
+                                                                  </div>
 
-                <!--button class="kuiButton kuiButton--primary" ng-click="addParam(searchParam)">
-                  Add Param
-                </button-->
+                                                                  <div ng-if="$parent.indexName && $parent.matchedIndices.length == 0">
+                                                                        <div id="autosuggest" class="match-fail">
+                                                                              no matches for
+                                                                              {{$parent.indexName}}
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
 
-                <!--button class="kuiButton kuiButton--primary" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1">
-                  Remove Param
-                </button-->
+                                                      </div>
+                                                </td>
+                                          </tr>
 
-                <a  class="kuiMicroButton" title="Add Param" ng-click="addParam(searchParam)">
-                    <span class="kuiIcon fa-plus"></span>
-                </a>
+                                          <tr class="kuiTableRow">
+                                                <td class="kuiTableRowCell">
+                                                      <div class="kuiTableRowCell__liner">
+                                                            Type Name
+                                                      </div>
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
+                                                </div>
+                                          </td>
 
+                                    </tr>
 
-                <a  class="kuiMicroButton" title="Remove Param" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1">
-                    <span class="kuiIcon fa-minus"></span>
-                </a>
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Suggest Field Name
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="Suggest Field Name" ng-model="$parent.suggestField">
+                                                </div>
+                                          </td>
+                                    </tr>
 
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Source Field
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="Source Field Name" ng-model="$parent.sourceField">
+                                                </div>
+                                          </td>
+                                    </tr>
 
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Type as you Go nb chars trigger
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="min Length" ng-model="$parent.minLength">
+                                                </div>
+                                          </td>
+                                    </tr>
 
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Size
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="Response size" ng-model="$parent.pageSize">
+                                                </div>
+                                          </td>
+                                    </tr>
 
-              </div>
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Max Fuzziness
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="fuzziness" ng-model="$parent.fuzziness">
+                                                </div>
+                                          </td>
+                                    </tr>
 
-              <input type="checkbox" class="kuiCheckBox" ng-model="searchParam.tayg">
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Context Name
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="context Name" ng-model="$parent.contextName">
+                                                </div>
+                                          </td>
+                                    </tr>
 
-              <span>TAYG</span>
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Contexts
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder='ex: "items","ddd"' ng-model="$parent.contexts">
+                                                </div>
+                                          </td>
+                                    </tr>
 
-              <div class="kuiToolBarSection" ng-if="searchParam.num == -1">
-                <div class="kuiToolBarText">
-                  {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
-                </div>
+                              </tbody>
+                        </table>
+                  </div>
 
-                <div class="kuiButtonGroup kuiButtonGroup--united">
-                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
-                    <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
-                  </button>
-                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
-                    <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
-                  </button>
-                </div>
-              </div>
-          </div>
+                  <!-- Custom search suggester -->
+                  <div class="kuiPanelBody" ng-if="selectedTab === 1">
+                        <table class="kuiTable " >
+                              <tbody>
 
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Index Name
+                                                </div>
+                                          </td>
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      <input type="text" class="kuiTextInput" placeholder="Index name" ng-model="$parent.indexName">
+                                                </div>
+                                          </td>
+                                    </tr>
 
+                                    <tr class="kuiTableRow">
+                                          <td class="kuiTableRowCell">
+                                                <div class="kuiTableRowCell__liner">
+                                                      Type Name
+                                                </div>
+                                          </div>
+                                    </td>
+                                    <td class="kuiTableRowCell">
+                                          <div class="kuiTableRowCell__liner">
+                                                <input type="text" class="kuiTextInput" placeholder="Type name" ng-model="$parent.typeName">
+                                          </div>
+                                    </td>
 
+                              </tr>
 
-          <div class="kuiTabs">
-              <button
-                class="kuiTab kuiTab-isSelected"
-                title="Hits"
-                ng-click="seeHitsTab($event)"
-              >
-                Hits
-              </button>
+                              <tr class="kuiTableRow">
+                                    <td class="kuiTableRowCell">
+                                          <div class="kuiTableRowCell__liner">
+                                                Results per Page
+                                          </div>
+                                    </td>
+                                    <td class="kuiTableRowCell">
+                                          <div class="kuiTableRowCell__liner">
+                                                <input type="text" class="kuiTextInput" placeholder="Results per Page" ng-model="$parent.resPerPage">
+                                          </div>
+                                    </td>
 
-              <button
-                class="kuiTab"
-                title="Suggestions"
-                ng-click="seeSuggestTab($event)"
-              >
-                 Suggestions
-              </button>
-          </div>
+                              </tr>
 
+                              <tr class="kuiTableRow">
+                                    <td class="kuiTableRowCell">
+                                          <div class="kuiTableRowCell__liner">
+                                                Query body
+                                          </div>
+                                    </div>
+                              </td>
+                              <td class="kuiTableRowCell">
+                                    <textarea type="text" class=".textsearchbox kuiTextArea" style="width: 100%" ng-model="$parent.searchQuery" required="required"></textarea>
+                              </td>
 
-          <div ng-if="searchTabSelected === 0">
-            <!-- Field Titles-->
-            <table class="kuiTable">
-              <thead>
-                <tr>
+                        </tr>
 
-                  <th class="kuiTableHeaderCell">
-                    Responses
-                  </th>
-
-                </tr>
-              </thead>
-
-              <!-- results -->
-              <tbody>
-                <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
-
-                  <td class="kuiTableRowCell" >
-
-                    <json-formatter open="0" json="row._source"></json-formatter>
-
-
-                  </td>
-
-                  <td class="kuiTableRowCell" >
-
-                    <div style="font-size: large;">
-                    {{row._score}}
-                    <div>
-
-
-                  </td>
-
-                </tr>
-              </tbody>
+                  </tbody>
             </table>
+      </div>
 
+      <!-- Analysis suggester -->
+      <div class="kuiPanelBody" ng-if="selectedTab === 2">
+            <table class="kuiTable ">
+                  <tbody>
 
-            <!-- ToolBarFooter -->
-            <div class="kuiToolBarFooter">
-              <div class="kuiToolBarFooterSection">
-                <div class="kuiToolBarText">
-                  {{total}} total hits found
-                </div>
-              </div>
+                        <tr class="kuiTableRow">
+                              <td class="kuiTableRowCell">
+                                    <div class="kuiTableRowCell__liner">
+                                          Enter Index Name
+                                    </div>
+                              </td>
+                              <td class="kuiTableRowCell">
+                                    <div class="kuiTableRowCell__liner">
+                                          <input type="text" class="kuiTextInput" placeholder="Enter index name" ng-model="$parent.indexName">
+                                    </div>
+                              </td>
+                        </tr>
 
-              <div class="kuiToolBarFooterSection">
-                <div class="kuiToolBarText">
-                  {{ (pageNumber * resPerPage) + 1  }} &ndash; {{ ((pageNumber+1) * resPerPage) }} of {{total}}
-                </div>
+                        <tr class="kuiTableRow">
+                              <td class="kuiTableRowCell">
+                                    <div class="kuiTableRowCell__liner">
+                                          Enter Analyzer Name
+                                    </div>
+                              </td>
+                              <td class="kuiTableRowCell">
+                                    <div class="kuiTableRowCell__liner">
+                                          <input type="text" class="kuiTextInput" placeholder="Analyzer name" ng-model="$parent.analyzer">
+                                    </div>
+                              </td>
+                        </tr>
 
-                <div class="kuiButtonGroup kuiButtonGroup--united">
-                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
-                    <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
-                  </button>
-
-                  <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
-                    <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div ng-if="searchTabSelected === 1">
-            <!-- Field Titles-->
-            <table class="kuiTable">
-              <thead>
-                <tr>
-
-                  <th class="kuiTableHeaderCell">
-                    Suggestions
-                  </th>
-
-                </tr>
-              </thead>
-
-              <!-- results TODO check highlighted -->
-
-              <tbody ng-repeat="group in $parent.iterSuggesters">
-
-                <tr class="kuiTableRow">
-
-                  <td class="kuiTableRowCell" style="font-size: xx-large;">
-                  {{group.name}}
-                  </td>
-
-                </tr>
-
-
-
-
-                <tr class="kuiTableRow" ng-repeat="sugg in group.options">
-
-                  <td class="kuiTableRowCell" ng-bind-html="sugg.show | trust">
-
-                  </td>
-
-                </tr>
-              </tbody>
+                  </tbody>
             </table>
-
-          </div>
-
-
-        </div>
       </div>
-      <div ng-if="selectedTab === 2">
-        <div style="display: flex;" >
-            <div style="margin-right: 20px;width: 100%;">
-                <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.analyze.text"  style="width: 100%;"">
+
+      <div class="kuiIcon kuiIcon--error fa-warning" ng-show="apiError"></div>
+
+</div>
+
+
+
+<div class="tabs-right">
+
+
+      <!-- RESULTS -->
+      <div class="kuiPanelBody">
+            <div ng-if="selectedTab === 0">
+                  <div style="display: flex;">
+                        <div style="margin-right: 20px;">
+                              <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.searchStr">
+                        </div>
+                  </div>
+
+                  <div class="searchresults" ng-if="showDropdown">
+                        <ul style="list-style-type:none;padding-left: 5px">
+                              <div ng-repeat="row in $parent.results" style="display: flex;">
+
+                                    <div style="width: 50%;" ng-if="sourceFieldRequested === false">
+                                          {{row.text}}
+                                    </div>
+                                    <div style="width: 50%;" ng-if="sourceFieldRequested">
+                                          {{row._source[$parent.sourceField]}}
+                                    </div>
+
+                                    <div style="width: 10%; font-size: large;">
+                                          {{row._score}}
+                                    </div>
+                              </div>
+                        </ul>
+                  </div>
             </div>
-             <div style="margin-right: 20px;" ng-hide="analyze.tayg">
-                <button ng-click="doAnalyzeSearch()" class="kuiButton kuiButton--primary">
-                  Analyze
-                </button>
-              </div>
-        </div>
 
-        <div class="searchresults" ng-if="showDropdown">
+            <div ng-if="selectedTab === 1">
 
-          <!--div style="width: 50%;font-size: x-large;">
-                Analyzed Text
-          </div>
-            <div style="margin-right: 20px;width: 100%;">
-               {{$parent.highlighted}}
-            </div-->
+                  <div class="kuiControlledTable">
+                        <!-- ToolBar -->
+                        <div class="kuiToolBar" ng-repeat="searchParam in params">
 
-         <div style="width: 50%;font-size: x-large;margin-top: 20px;">
-                Analyzed Tokens
-          </div>
+                              <div class="kuiToolBarSearch">
+                                    <div class="kuiToolBarSearchBox">
+                                          <div class="kuiToolBarSearchBox__icon kuiIcon fa-search"></div>
+                                          <input class="kuiToolBarSearchBox__input" type="text" placeholder="enter param value @{{searchParam.num}}" ng-model="searchParam.item" ng-keyup="doTayg($event,searchParam.num)">
+                                    </div>
+                              </div>
 
-          <ul style="list-style-type:none;padding-left: 5px">
-            <div ng-repeat="row in $parent.results" style="display: flex;" >
+                              <div class="kuiToolBarSection">
 
-              <div style="width: 50%;">
-                {{row.token}}
-              </div>
+                                    <button ng-click="doSearch()" class="kuiButton kuiButton--primary">
+                                          Search
+                                    </button>
+
+                                    <!--button class="kuiButton kuiButton--primary" ng-click="addParam(searchParam)"> Add Param </button-->
+
+                                    <!--button class="kuiButton kuiButton--primary" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1"> Remove Param </button-->
+
+                                    <a class="kuiMicroButton" title="Add Param" ng-click="addParam(searchParam)">
+                                          <span class="kuiIcon fa-plus"></span>
+                                    </a>
+
+                                    <a class="kuiMicroButton" title="Remove Param" ng-click="removeParam(searchParam)" ng-if="searchParam.num > 0 || params.length > 1">
+                                          <span class="kuiIcon fa-minus"></span>
+                                    </a>
+
+                              </div>
+
+                              <input type="checkbox" class="kuiCheckBox" ng-model="searchParam.tayg">
+
+                              <span>TAYG</span>
+
+                              <div class="kuiToolBarSection" ng-if="searchParam.num == -1">
+                                    <div class="kuiToolBarText">
+                                          {{ (pageNumber * resPerPage) + 1  }}
+                                          &ndash;
+                                          {{ ((pageNumber+1) * resPerPage) }}
+                                          of
+                                          {{total}}
+                                    </div>
+
+                                    <div class="kuiButtonGroup kuiButtonGroup--united">
+                                          <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
+                                                <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
+                                          </button>
+                                          <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
+                                                <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="kuiTabs">
+                              <button class="kuiTab kuiTab-isSelected" title="Hits" ng-click="seeHitsTab($event)">
+                                    Hits
+                              </button>
+
+                              <button class="kuiTab" title="Suggestions" ng-click="seeSuggestTab($event)">
+                                    Suggestions
+                              </button>
+                        </div>
+
+                        <div ng-if="searchTabSelected === 0">
+                              <!-- Field Titles-->
+                              <table class="kuiTable">
+                                    <thead>
+                                          <tr>
+
+                                                <th class="kuiTableHeaderCell">
+                                                      Responses
+                                                </th>
+
+                                          </tr>
+                                    </thead>
+
+                                    <!-- results -->
+                                    <tbody>
+                                          <tr class="kuiTableRow" ng-repeat="row in $parent.response.hits">
+
+                                                <td class="kuiTableRowCell">
+
+                                                      <json-formatter open="0" json="row._source"></json-formatter>
+
+                                                </td>
+
+                                                <td class="kuiTableRowCell">
+
+                                                      <div style="font-size: large;">
+                                                            {{row._score}}
+                                                            <div></td>
+
+                                                      </tr>
+                                                </tbody>
+                                          </table>
+
+                                          <!-- ToolBarFooter -->
+                                          <div class="kuiToolBarFooter">
+                                                <div class="kuiToolBarFooterSection">
+                                                      <div class="kuiToolBarText">
+                                                            {{total}}
+                                                            total hits found
+                                                      </div>
+                                                </div>
+
+                                                <div class="kuiToolBarFooterSection">
+                                                      <div class="kuiToolBarText">
+                                                            {{ (pageNumber * resPerPage) + 1  }}
+                                                            &ndash;
+                                                            {{ ((pageNumber+1) * resPerPage) }}
+                                                            of
+                                                            {{total}}
+                                                      </div>
+
+                                                      <div class="kuiButtonGroup kuiButtonGroup--united">
+                                                            <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="prevPage()">
+                                                                  <span class="kuiButton__icon kuiIcon fa-chevron-left"></span>
+                                                            </button>
+
+                                                            <button class="kuiButton kuiButton--basic kuiButton--icon" ng-click="nextPage()">
+                                                                  <span class="kuiButton__icon kuiIcon fa-chevron-right"></span>
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+
+                                    <div ng-if="searchTabSelected === 1">
+                                          <!-- Field Titles-->
+                                          <table class="kuiTable">
+                                                <thead>
+                                                      <tr>
+
+                                                            <th class="kuiTableHeaderCell">
+                                                                  Suggestions
+                                                            </th>
+
+                                                      </tr>
+                                                </thead>
+
+                                                <!-- results TODO check highlighted -->
+
+                                                <tbody ng-repeat="group in $parent.iterSuggesters">
+
+                                                      <tr class="kuiTableRow">
+
+                                                            <td class="kuiTableRowCell" style="font-size: xx-large;">
+                                                                  {{group.name}}
+                                                            </td>
+
+                                                      </tr>
+
+                                                      <tr class="kuiTableRow" ng-repeat="sugg in group.options">
+
+                                                            <td class="kuiTableRowCell" ng-bind-html="sugg.show | trust"></td>
+
+                                                      </tr>
+                                                </tbody>
+                                          </table>
+
+                                    </div>
+
+                              </div>
+                        </div>
+                        <div ng-if="selectedTab === 2">
+                              <div style="display: flex;">
+                                    <div style="margin-right: 20px;width: 100%;">
+                                          <input ng-keyup="doSuggest($event)" type="text" class="kuiTextInput" placeholder="{{searchBoxHint}}" ng-model="$parent.analyze.text" style="width: 100%;">
+                                    </div>
+                                    <div style="margin-right: 20px;" ng-hide="analyze.tayg">
+                                          <button ng-click="doAnalyzeSearch()" class="kuiButton kuiButton--primary">
+                                                Analyze
+                                          </button>
+                                    </div>
+                              </div>
+
+                              <div class="searchresults" ng-if="showDropdown">
+
+                                    <!--div style="width: 50%;font-size: x-large;"> Analyzed Text </div> <div style="margin-right: 20px;width: 100%;"> {{$parent.highlighted}} </div-->
+
+                                    <div style="width: 50%;font-size: x-large;margin-top: 20px;">
+                                          Analyzed Tokens
+                                    </div>
+
+                                    <ul style="list-style-type:none;padding-left: 5px">
+                                          <div ng-repeat="row in $parent.results" style="display: flex;">
+
+                                                <div style="width: 50%;">
+                                                      {{row.token}}
+                                                </div>
+
+                                          </div>
+                                    </ul>
+                              </div>
+                        </div>
+                  </div>
 
             </div>
-          </ul>
-        </div>
+
       </div>
-    </div>
 
-  </div>
-
+</div>
 </div>
