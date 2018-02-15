@@ -68,14 +68,13 @@ export default function (server) {
         method: 'POST',
         handler(req, reply) {
 
-
             server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'cat.indices', {
                 index: req.payload.query,
                 h: "index"
 
             }).then(function (response) {
                 reply(response);
-            }, function(error){
+            }, function (error) {
                 console.error(error);
                 reply(null);
 

@@ -338,11 +338,11 @@ uiModules
 
         }
 
-        $scope.queryIndexName = function(prefix) {
+        $scope.queryIndexName = function (prefix) {
 
             console.log("Prefix", prefix);
 
-            if(prefix.length == 0){
+            if (prefix.length == 0) {
                 //matchedIndices = null will not display the popup
                 $scope.matchedIndices = null;
                 return;
@@ -358,11 +358,11 @@ uiModules
 
             }).then(function (response) {
                 console.info(response);
-                console.log("response "+response.data);
+                console.log("response " + response.data);
 
-                if(response.data){
+                if (response.data) {
                     $scope.matchedIndices = response.data.split("\n");
-                }else{
+                } else {
                     $scope.matchedIndices = [];
                 }
 
