@@ -134,7 +134,7 @@ uiModules
                             body: JSON.stringify(suggestDsl)
                         }
 
-                    }).then(function (response) {
+                    }).then(response => {
                         if (response.data.suggest &&
                             response.data.suggest.suggestions &&
                             response.data.suggest.suggestions[0].options.length > 0) {
@@ -225,7 +225,7 @@ uiModules
                     text: $scope.analyze.text,
                     analyzer: $scope.analyzer
                 }
-            }).then(function (response, status, headers, config) {
+            }).then((response, status, headers, config) => {
                 $scope.apiError = false;
                 console.log("OK");
                 //console.log("response "+data);
@@ -241,11 +241,14 @@ uiModules
 
                 }
 
-            }, function (data, status, headers, config) {
-                console.log("NOK");
-                $scope.apiError = true;
+            }).catch(resp => {
                 $scope.showDropdown = false;
+                const err = new Error(resp.data.title);
+                err.stack = resp.stack;
+                notify.error(err);
             });
+
+
 
         }
 
@@ -362,7 +365,7 @@ uiModules
                     query: prefix
                 }
 
-            }).then(function (response) {
+            }).then(response => {
                 console.info(response);
                 console.log("response " + response.data);
 
@@ -387,7 +390,7 @@ uiModules
                     pageSize: $scope.resPerPage,
                     pageNumber: $scope.pageNumber
                 }
-            }).then(function (ret, status, headers, config) {
+            }).then((ret, status, headers, config) => {
                 $scope.apiError = false;
 
                 if (ret != null) {

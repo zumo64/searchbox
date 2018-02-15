@@ -25,9 +25,9 @@ export default function (server) {
                 index: "" + req.payload.index,
                 type: "" + req.payload.type,
                 body: JSON.parse(req.payload.body)
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
-            },function (error) {
+            }).catch(error => {
                 replyWithError(error, reply);
             });
         }
@@ -45,12 +45,10 @@ export default function (server) {
                 size: "" + req.payload.pageSize,
                 from: "" + req.payload.pageSize * req.payload.pageNumber
 
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
-            },function (error) {
-                console.error(error);
+            }).catch(error => {
                 replyWithError(error, reply);
-
             });
         }
     });
@@ -70,10 +68,9 @@ export default function (server) {
                 jRequest[index] = "" + req.payload.index
             }
 
-            server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(function (response) {
+            server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(response => {
                 reply(response);
-            },function (error) {
-                console.error(error);
+            }).catch(error => {
                 replyWithError(error, reply);
             });
         }
@@ -88,9 +85,9 @@ export default function (server) {
                 index: req.payload.query,
                 h: "index"
 
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
-            }, function (error) {
+            }).catch(error => {
                 reply(null);
             });
 
