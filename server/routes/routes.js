@@ -1,3 +1,10 @@
+function replyWithError(e, reply) {
+  reply({
+    title: e.toString(),
+    message: e.toString()
+  }).code(500);
+}
+
 export default function (server) {
 
     server.route({
@@ -20,6 +27,8 @@ export default function (server) {
                 body: JSON.parse(req.payload.body)
             }).then(function (response) {
                 reply(response);
+            },function (error) {
+                replyWithError(error, reply);
             });
         }
     });
@@ -38,6 +47,10 @@ export default function (server) {
 
             }).then(function (response) {
                 reply(response);
+            },function (error) {
+                console.error(error);
+                replyWithError(error, reply);
+
             });
         }
     });
@@ -59,6 +72,9 @@ export default function (server) {
 
             server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(function (response) {
                 reply(response);
+            },function (error) {
+                console.error(error);
+                replyWithError(error, reply);
             });
         }
     });
@@ -75,16 +91,9 @@ export default function (server) {
             }).then(function (response) {
                 reply(response);
             }, function (error) {
-                console.error(error);
                 reply(null);
-
             });
 
-            /*server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'cluster.health').then(response => {
-                console.log(response);
-                console.log('cluster status is: #{response.status}');
-                reply(response);
-            });*/
 
         }
     });

@@ -9,6 +9,7 @@ import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.
 import 'ui/autoload/styles';
 import './less/main.less';
 import template from './templates/index.html';
+import { notify } from 'ui/notify';
 //import autocomplete from './directives/autocomplete';
 
 uiRoutes.enable();
@@ -144,7 +145,12 @@ uiModules
                             $scope.showDropdown = false;
                         }
 
+                    }).catch(resp => {
+                        const err = new Error(resp.data.title);
+                        err.stack = resp.stack;
+                        notify.error(err);
                     });
+
 
                 } else {
                     $scope.showDropdown = false;
@@ -418,9 +424,10 @@ uiModules
 
                 }
 
-            }, function (data, status, headers, config) {
-                console.log("NOK");
-                $scope.apiError = true;
+            }).catch(resp => {
+                const err = new Error(resp.data.title);
+                err.stack = resp.stack;
+                notify.error(err);
             });
         }
 
