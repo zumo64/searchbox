@@ -1,3 +1,10 @@
+function replyWithError(e, reply) {
+  reply({
+    title: e.toString(),
+    message: e.toString()
+  }).code(500);
+}
+
 export default function (server) {
 
     server.route({
@@ -18,8 +25,10 @@ export default function (server) {
                 index: "" + req.payload.index,
                 type: "" + req.payload.type,
                 body: JSON.parse(req.payload.body)
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
+            }).catch(error => {
+                replyWithError(error, reply);
             });
         }
     });
@@ -36,8 +45,10 @@ export default function (server) {
                 size: "" + req.payload.pageSize,
                 from: "" + req.payload.pageSize * req.payload.pageNumber
 
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
+            }).catch(error => {
+                replyWithError(error, reply);
             });
         }
     });
@@ -57,8 +68,10 @@ export default function (server) {
                 jRequest[index] = "" + req.payload.index
             }
 
-            server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(function (response) {
+            server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(response => {
                 reply(response);
+            }).catch(error => {
+                replyWithError(error, reply);
             });
         }
     });
@@ -68,24 +81,16 @@ export default function (server) {
         method: 'POST',
         handler(req, reply) {
 
-
             server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'cat.indices', {
                 index: req.payload.query,
                 h: "index"
 
-            }).then(function (response) {
+            }).then(response => {
                 reply(response);
-            }, function(error){
-                console.error(error);
+            }).catch(error => {
                 reply(null);
-
             });
 
-            /*server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'cluster.health').then(response => {
-                console.log(response);
-                console.log('cluster status is: #{response.status}');
-                reply(response);
-            });*/
 
         }
     });

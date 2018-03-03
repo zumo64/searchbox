@@ -9,6 +9,7 @@ import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.
 import 'ui/autoload/styles';
 import './less/main.less';
 import template from './templates/index.html';
+import { notify } from 'ui/notify';
 //import autocomplete from './directives/autocomplete';
 
 uiRoutes.enable();
@@ -133,7 +134,7 @@ uiModules
                             body: JSON.stringify(suggestDsl)
                         }
 
-                    }).then(function (response) {
+                    }).then(response => {
                         if (response.data.suggest &&
                             response.data.suggest.suggestions &&
                             response.data.suggest.suggestions[0].options.length > 0) {
@@ -144,7 +145,12 @@ uiModules
                             $scope.showDropdown = false;
                         }
 
+                    }).catch(resp => {
+                        const err = new Error(resp.data.title);
+                        err.stack = resp.stack;
+                        notify.error(err);
                     });
+
 
                 } else {
                     $scope.showDropdown = false;
@@ -219,7 +225,7 @@ uiModules
                     text: $scope.analyze.text,
                     analyzer: $scope.analyzer
                 }
-            }).then(function (response, status, headers, config) {
+            }).then((response, status, headers, config) => {
                 $scope.apiError = false;
                 console.log("OK");
                 //console.log("response "+data);
@@ -235,11 +241,14 @@ uiModules
 
                 }
 
-            }, function (data, status, headers, config) {
-                console.log("NOK");
-                $scope.apiError = true;
+            }).catch(resp => {
                 $scope.showDropdown = false;
+                const err = new Error(resp.data.title);
+                err.stack = resp.stack;
+                notify.error(err);
             });
+
+
 
         }
 
@@ -338,11 +347,11 @@ uiModules
 
         }
 
-        $scope.queryIndexName = function(prefix) {
+        $scope.queryIndexName = function (prefix) {
 
             console.log("Prefix", prefix);
 
-            if(prefix.length == 0){
+            if (prefix.length == 0) {
                 //matchedIndices = null will not display the popup
                 $scope.matchedIndices = null;
                 return;
@@ -356,13 +365,13 @@ uiModules
                     query: prefix
                 }
 
-            }).then(function (response) {
+            }).then(response => {
                 console.info(response);
-                console.log("response "+response.data);
+                console.log("response " + response.data);
 
-                if(response.data){
+                if (response.data) {
                     $scope.matchedIndices = response.data.split("\n");
-                }else{
+                } else {
                     $scope.matchedIndices = [];
                 }
 
@@ -381,7 +390,7 @@ uiModules
                     pageSize: $scope.resPerPage,
                     pageNumber: $scope.pageNumber
                 }
-            }).then(function (ret, status, headers, config) {
+            }).then((ret, status, headers, config) => {
                 $scope.apiError = false;
 
                 if (ret != null) {
@@ -418,9 +427,10 @@ uiModules
 
                 }
 
-            }, function (data, status, headers, config) {
-                console.log("NOK");
-                $scope.apiError = true;
+            }).catch(resp => {
+                const err = new Error(resp.data.title);
+                err.stack = resp.stack;
+                notify.error(err);
             });
         }
 
