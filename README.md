@@ -60,10 +60,10 @@ Just paste the code below in the Textarea on the tab "Custom Search"
 
 ## installation
 latest version available for 6.1.2, 6.1.1
-distributions available for versions 5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1
+distributions available for versions 5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1, 6.2.3
 Just replace the right version on the path below
 
-./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.1.2/searchbox-6.1.2.zip
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.2.3/searchbox-6.2.3.zip
 
 
 ## development
