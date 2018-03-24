@@ -65,7 +65,7 @@ export default function (server) {
                 }
             }
             if (req.payload.index != null && req.payload.index != "") {
-                jRequest[index] = "" + req.payload.index
+                jRequest.index = "" + req.payload.index
             }
 
             server.plugins.elasticsearch.getCluster('data').callWithRequest(req, 'indices.analyze', jRequest).then(response => {
