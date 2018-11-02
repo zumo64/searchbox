@@ -1,30 +1,19 @@
-import { resolve } from 'path';
 import routes from './server/routes/routes';
 
 export default function (kibana) {
   return new kibana.Plugin({
-
     require: ['elasticsearch'],
     name: 'searchbox',
-
     uiExports: {
-
       app: {
         title: 'Searchbox',
-        description: 'Search Results Helper',
-        main: 'plugins/searchbox/app'
+        description: 'Search plugin',
+        main: 'plugins/searchbox/app',
+        styleSheetPath: require('path').resolve(__dirname, 'public/app.scss'),
       },
-
-
-      translations: [
-        resolve(__dirname, './translations/es.json')
-      ],
-
-
       hacks: [
-        'plugins/searchbox/hack'
+        'plugins/searchbox_6_4/hack'
       ]
-
     },
 
     config(Joi) {
@@ -33,12 +22,9 @@ export default function (kibana) {
       }).default();
     },
 
-
-    init(server, options) {
+   init(server, options) {
       // Add server routes and initalize the plugin here
       routes(server);
     }
-
-
   });
-};
+}
