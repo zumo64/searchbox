@@ -3,7 +3,7 @@ import routes from './server/routes/routes';
 export default function (kibana) {
   return new kibana.Plugin({
     require: ['elasticsearch'],
-    name: 'searchbox',
+    name: 'searchbox_6_4',
     uiExports: {
       app: {
         title: 'Searchbox',
@@ -12,7 +12,7 @@ export default function (kibana) {
         styleSheetPath: require('path').resolve(__dirname, 'public/app.scss'),
       },
       hacks: [
-        'plugins/searchbox_6_4/hack'
+        'plugins/searchbox/hack'
       ]
     },
 

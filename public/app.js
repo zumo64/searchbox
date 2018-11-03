@@ -428,7 +428,7 @@ uiModules
                 }
 
             }).catch(resp => {
-                const err = new Error(resp.data.title);
+                const err = new Error("error");
                 err.stack = resp.stack;
                 notify.error(err);
             });

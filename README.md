@@ -13,6 +13,15 @@
 
 ## TAB 1 Autocomplete quick test
 Enter index, type, suggest field name , min number of chars that will trigger the search, size of the response.
+Using data from  https://gist.github.com/zumo64/ce2534b7ac57320ad248d0906e866999 you can enter :
+
+- index Name : bands
+- type : doc
+- Suggest field : name_autocomplete
+- source field : name
+
+ Then try enter 'fly' on the right hand text field , you will get Pink Floyd as fuzziness is auto by default
+
 
 
 ## TAB 2 Custom Search
@@ -23,7 +32,8 @@ Enter index, type, suggest field name , min number of chars that will trigger th
 - switch result tabs between suggestion and hits to see search/suggestion results
 
 Example of query that returns hits and suggestions taken from https://gist.github.com/zumo64/ce2534b7ac57320ad248d0906e866999
-Just paste the code below in the Textarea on the tab "Custom Search"
+
+Just paste the example code below in the Textarea on the tab "Custom Search"
 ```json
 {
   "query": {
@@ -58,38 +68,23 @@ Just paste the code below in the Textarea on the tab "Custom Search"
 - press "search"
 
 
-## installation
-latest version available for 6.1.2, 6.1.1
-distributions available for versions 5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1, 6.2.3
-Just replace the right version on the path below
+## Installation
+latest version available for 6.4.0
+distributions available for versions 6.1.2, 6.1.1,5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1, 6.2.3
+check available [releases](https://github.com/zumo64/searchbox/releases)
+
+To install use as below depending on your kibana version :
+
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.4.2/searchbox-2.0.0.zip
 
 ./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.1.1/searchbox-6.1.1.zip
 
 ./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.2.3/searchbox-0.0.4.zip
 
 
-## development
+## Development
 
-See the [kibana contributing guide](https://github.com/elastic/kibana/blob/master/CONTRIBUTING.md) for instructions setting up your development environment. Once you have completed that, use the following npm tasks.
+The master branch is now using the Kibana plugin generator included in Kibana 6.3+
 
-  - `npm start`
+See the [kibana contributing guide](https://github.com/elastic/kibana/blob/master/CONTRIBUTING.md) for instructions setting up your development environment. Once you have completed that, use the plugin script commands documented [here](https://github.com/elastic/kibana/tree/6.4/packages/kbn-plugin-generator#plugin-development-scripts)
 
-    Start kibana and have it include this plugin
-
-  - `npm start -- --config kibana.yml`
-
-    You can pass any argument that you would normally send to `bin/kibana` by putting them after `--` when running `npm start`
-
-  - `npm run build`
-
-    Build a distributable archive
-
-  - `npm run test:browser`
-
-    Run the browser tests in a real web browser
-
-  - `npm run test:server`
-
-    Run the server tests using mocha
-
-For more information about any of these commands run `npm run ${task} -- --help`.
