@@ -1,29 +1,33 @@
-import moment from 'moment';
+
+import React from 'react';
+import { uiModules } from 'ui/modules';
 import chrome from 'ui/chrome';
-import {
-    uiModules
-} from 'ui/modules';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { I18nProvider } from '@kbn/i18n/react';
+
 import uiRoutes from 'ui/routes';
-import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.js';
-import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.css';
 import 'ui/autoload/styles';
 import './less/main.less';
+import moment from 'moment';
 import template from './templates/index.html';
+import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.js';
+import 'plugins/searchbox/../node_modules/jsonformatter/dist/json-formatter.min.css';
 import { notify } from 'ui/notify';
-//import autocomplete from './directives/autocomplete';
+
+
 
 uiRoutes.enable();
 uiRoutes
-    .when('/', {
-        template,
-        resolve: {
-            currentTime($http) {
-                return $http.get('../api/searchbox/example').then(function (resp) {
-                    return resp.data.time;
-                });
-            }
-        }
-    });
+     .when('/', {
+         template,
+         resolve: {
+             currentTime($http) {
+                 return $http.get('../api/searchbox/example').then(function (resp) {
+                     return resp.data.time;
+                 });
+             }
+         }
+     });
 
 uiModules
     .get('app/searchbox', ['jsonFormatter'])
@@ -254,6 +258,9 @@ uiModules
 
         $scope.nextPage = function (event) {
 
+            if ($scope.pageNumber >= Math.floor($scope.total / $scope.resPerPage)) {
+                return;
+            }
             $scope.pageNumber++;
             $scope.doSearch();
 
