@@ -211,7 +211,7 @@ uiModules
                     searchQueryReplaced = searchQueryReplaced.replace('@' + i, param);
                 }
             }
-
+            
             sendSearch(searchQueryReplaced);
         }
 
@@ -404,6 +404,7 @@ uiModules
                     $scope.response = ret.data.hits;
                     $scope.suggest = ret.data.suggest;
                     $scope.total = ret.data.hits.total;
+                    
 
                     if ($scope.suggest != null) {
                         $scope.iterSuggesters = [];
