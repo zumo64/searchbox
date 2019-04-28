@@ -61,6 +61,10 @@ Just paste the example code below in the Textarea on the tab "Custom Search"
 }
 ```
 
+Enter `pind` and `philosopical` as search params on the right side of the screen (using '+' to add the second param)
+After pressing search the suggestions will appear as expected
+
+
 ## Analyzer quick test 
 - Enter the index name
 - Enter the analyzer name
