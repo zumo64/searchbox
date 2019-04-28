@@ -61,6 +61,10 @@ Just paste the example code below in the Textarea on the tab "Custom Search"
 }
 ```
 
+Enter `pind` and `philosopical` as search params on the right side of the screen (using '+' to add the second param)
+After pressing search the suggestions will appear as expected
+
+
 ## Analyzer quick test 
 - Enter the index name
 - Enter the analyzer name
@@ -69,13 +73,13 @@ Just paste the example code below in the Textarea on the tab "Custom Search"
 
 
 ## Installation
-latest version available for 6.4.2
-distributions available for versions 6.1.2, 6.1.1,5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1, 6.2.3
+latest version available for 6.7.2
+distributions available for versions 6.7.1,6.4.2, 6.1.2, 6.1.1,5.3.3, 5.4.0, 5.4.1, 6.1.2, 6.1.1, 6.2.3
 check available [releases](https://github.com/zumo64/searchbox/releases)
 
 To install use as below depending on your kibana version :
 
-./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.4.2/searchbox-2.0.0.zip
+./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.7.1/searchbox-2.0.0.zip
 
 ./bin/kibana-plugin install https://github.com/zumo64/searchbox/releases/download/6.1.1/searchbox-6.1.1.zip
 
